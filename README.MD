@@ -39,4 +39,4 @@ Para la gestión de proyecto estamos usando la herramienta de **trello** para or
 
 Estamos usando la herramienta de figma para hacer un prototipo de la aplicacion
 
-<a><img src="img/prototipo_JUSTHELP.png"></a>
+<a href="https://www.figma.com/design/rrjd66D3OZdLlEksg2UDdk/JustHelp?node-id=0-1&t=h8fBRFVcTNyGL8Zr-1"><img src="img/prototipo_JUSTHELP.png"></a>
