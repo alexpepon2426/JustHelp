@@ -34,3 +34,9 @@ Borrador guía de estilo : <a href="https://docs.google.com/document/d/1To0nNd6f
 ## Comunicación y gestión del proyecto
 
 Para la gestión de proyecto estamos usando la herramienta de **trello** para organizar las tareas del proyecto e ir midiendo cuanto progreso se lleva del mismo, a su vez para comunicación usamos **slack** a modo de chat profesional para nuestras dailys e ir viendo como vamos avanzando.
+
+## Prototipo
+
+Estamos usando la herramienta de figma para hacer un prototipo de la aplicacion
+
+<a><img src="img/prototipo_JUSTHELP.png"></a>
