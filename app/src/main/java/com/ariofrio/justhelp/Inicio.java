@@ -8,7 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.ariofrio.justhelp.R;
+
 
 public class Inicio extends AppCompatActivity {
 
