@@ -7,4 +7,57 @@
     android:layout_height="match_parent"
     tools:context="com.ariofrio.justhelp.Login">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guiaiz"
+        app:layout_constraintGuide_percent="0.10">
+
+
+
+    </androidx.constraintlayout.widget.Guideline>
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/guiade"
+        app:layout_constraintGuide_percent="0.90">
+
+
+
+    </androidx.constraintlayout.widget.Guideline>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="384dp"
+        android:layout_height="352dp"
+        android:src="@drawable/logo"
+        app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintEnd_toEndOf="@id/guiade"
+
+        >
+
+    </ImageView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:id="@+id/nombre"
+        android:layout_height="wrap_content"
+       app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintEnd_toEndOf="@id/guiade"
+        app:layout_constraintTop_toTopOf="@id/main"
+        android:layout_marginTop="700px"
+
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="jim@gmail.com"
+            >
+
+
+        </EditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
