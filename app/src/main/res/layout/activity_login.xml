@@ -29,10 +29,11 @@
     </androidx.constraintlayout.widget.Guideline>
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="384dp"
-        android:layout_height="352dp"
-        android:src="@drawable/logo"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:src="@drawable/justhelp"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintTop_toTopOf="@id/main"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         >
     </ImageView>
@@ -56,6 +57,54 @@
 
 
         </EditText>
+
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="0dp"
+        android:id="@+id/nombre2"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintEnd_toEndOf="@id/guiade"
+        app:layout_constraintTop_toBottomOf="@id/nombre"
+        android:layout_marginTop="90px"
+
+
+        >
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+
+            >
+
+
+        </EditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/boton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Acceder"
+        app:layout_constraintTop_toBottomOf="@id/nombre2"
+        android:layout_marginTop="200px"
+        app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintEnd_toEndOf="@id/guiade">
+
+    </Button>
+    <EditText
+        android:id="@+id/texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Usuario nuevo? Create una cuenta."
+        app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintEnd_toEndOf="@id/guiade"
+        app:layout_constraintTop_toBottomOf="@id/boton"
+        android:layout_marginTop="60px"
+        android:textSize="40px">
+
+    </EditText>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
