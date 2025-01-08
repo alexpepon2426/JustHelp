@@ -9,9 +9,9 @@
 
     <ImageView
         android:id="@+id/logoRegister"
-        android:layout_width="384dp"
-        android:layout_height="352dp"
-        android:src="@drawable/logo"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:src="@drawable/justhelp"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintTop_toTopOf="@id/main" />
@@ -31,7 +31,7 @@
         />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nombre"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
@@ -44,55 +44,75 @@
             android:hint="Nombre*"
             />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email"
-        android:layout_width="250dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
         app:layout_constraintTop_toBottomOf="@id/nombre"
         android:layout_marginTop="20dp"
-        android:hint="Correo electrónico*"
-        />
-    <EditText
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo electrónico*"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/prefijo"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintTop_toBottomOf="@id/email"
-        android:layout_marginLeft="40dp"
         android:layout_marginTop="20dp"
-        android:hint="+34"
-        />
-    <EditText
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="+34"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tlfn"
-        android:layout_width="190dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/prefijo"
+        app:layout_constraintEnd_toEndOf="@id/guiaDer"
         app:layout_constraintTop_toBottomOf="@id/email"
-        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toEndOf="@id/prefijo"
+        android:layout_marginStart="10px"
         android:layout_marginTop="20dp"
-        android:hint="Teléfono*"
-        />
-    <EditText
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Teléfono*"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwd"
-        android:layout_width="250dp"
+        android:layout_width="0sp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
         app:layout_constraintTop_toBottomOf="@id/prefijo"
         android:layout_marginTop="20dp"
-        android:hint="Contraseña*"
-        />
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña*"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/botonRegister"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_width="0dp"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
         app:layout_constraintTop_toBottomOf="@id/passwd"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:text="Continuar"
         />
 
