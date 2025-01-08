@@ -28,6 +28,7 @@
 
     </androidx.constraintlayout.widget.Guideline>
     <ImageView
+        android:layout_marginTop="50dp"
         android:id="@+id/logo"
         android:layout_width="300dp"
         android:layout_height="200dp"
@@ -45,7 +46,7 @@
        app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toTopOf="@id/main"
-        android:layout_marginTop="700px"
+        android:layout_marginTop="900px"
 
         >
 
@@ -67,7 +68,7 @@
         app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toBottomOf="@id/nombre"
-        android:layout_marginTop="90px"
+        android:layout_marginTop="20dp"
 
 
         >
@@ -89,7 +90,7 @@
         android:layout_height="wrap_content"
         android:text="Acceder"
         app:layout_constraintTop_toBottomOf="@id/nombre2"
-        android:layout_marginTop="200px"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade">
 
