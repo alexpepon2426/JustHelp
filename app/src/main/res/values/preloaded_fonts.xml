@@ -3,5 +3,6 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/quicksand_light</item>
         <item>@font/quicksand_medium</item>
+        <item>@font/quicksand_semibold</item>
     </array>
 </resources>
