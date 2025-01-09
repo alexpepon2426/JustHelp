@@ -18,7 +18,9 @@
         <item name="android:fontFamily">@font/quicksand_semibold</item>
     </style>
 
-
-
+    <style name="fuente_texto">
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textSize">5pt</item>
+    </style>
 
 </resources>
