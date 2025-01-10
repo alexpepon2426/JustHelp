@@ -5,27 +5,84 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/gray">
 
-    <TextView
-        android:id="@+id/textView"
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/busqueda"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineR"
+        app:layout_constraintStart_toStartOf="@+id/guidelineL"
+        app:layout_constraintTop_toTopOf="@+id/guidelineU" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="384dp"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineU"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.92" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_distancia"
+        style="@style/Botones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.757" />
+        android:text="Distancia"
+        app:layout_constraintStart_toStartOf="@+id/guidelineL"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
+    <Button
+        android:id="@+id/button_nuevas"
+        style="@style/Botones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nuevas"
+        app:layout_constraintEnd_toStartOf="@+id/button_favoritas"
+        app:layout_constraintStart_toEndOf="@+id/button_distancia"
+        app:layout_constraintTop_toBottomOf="@id/editTextText" />
+
+    <Button
+        android:id="@+id/button_favoritas"
+        style="@style/Botones"
+        android:layout_marginStart="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favoritas"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineR"
+        app:layout_constraintTop_toBottomOf="@id/editTextText" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="527dp"
+        android:layout_marginTop="20dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/guidelineD"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineR"
+        app:layout_constraintStart_toStartOf="@+id/guidelineL"
+        app:layout_constraintTop_toBottomOf="@+id/button_nuevas" />
 </androidx.constraintlayout.widget.ConstraintLayout>
