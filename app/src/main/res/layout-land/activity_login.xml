@@ -28,10 +28,10 @@
 
     </androidx.constraintlayout.widget.Guideline>
     <ImageView
-        android:layout_marginTop="50dp"
+
         android:id="@+id/logo"
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="50dp"
         android:src="@drawable/justhelp"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintTop_toTopOf="@id/main"
@@ -46,14 +46,15 @@
        app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toTopOf="@id/main"
-        android:layout_marginTop="900px"
+        android:layout_marginTop="250px"
+
         >
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/quicksand_semibold"
-            android:hint="Correo electrónico*">
+            android:hint="Correo electrónico*"
+            >
 
 
         </EditText>
@@ -69,13 +70,14 @@
         app:layout_constraintTop_toBottomOf="@id/nombre"
         android:layout_marginTop="20dp"
 
+
         >
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
-            android:fontFamily="@font/quicksand_semibold"
+
             >
 
 
@@ -90,10 +92,7 @@
         app:layout_constraintTop_toBottomOf="@id/nombre2"
         style="@style/Botones"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
-        app:layout_constraintEnd_toEndOf="@id/guiade"
-        android:onClick="goMain"
-        android:fontFamily="@font/quicksand_semibold"
-        >
+        app:layout_constraintEnd_toEndOf="@id/guiade">
 
     </Button>
     <EditText
@@ -105,9 +104,7 @@
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toBottomOf="@id/boton"
         android:layout_marginTop="60px"
-        android:textSize="40px"
-        android:fontFamily="@font/quicksand_semibold"
-        >
+        android:textSize="40px">
 
     </EditText>
 
