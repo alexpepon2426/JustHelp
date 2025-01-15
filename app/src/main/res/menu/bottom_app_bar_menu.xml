@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/user"
+        android:layout_gravity="start"
+        android:color="@color/white"
+        android:icon="@drawable/ic_user"
+        android:iconTint="@color/white"
+        android:title="Favourite"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/map"
+        android:title="Language"
+        android:icon="@drawable/ic_map"
+        android:iconTint="@color/white"
+        android:color="@color/white"
+        app:showAsAction="always"
+        android:layout_gravity="end"
+        />
+
+</menu>

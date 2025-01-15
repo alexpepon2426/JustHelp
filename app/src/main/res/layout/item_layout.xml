@@ -8,6 +8,7 @@
     android:layout_marginBottom="5dp"
     android:background="@color/white"
     app:cardElevation="15dp"
+    android:elevation="8dp"
     >
 
 
@@ -53,4 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
