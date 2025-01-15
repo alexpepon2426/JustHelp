@@ -42,14 +42,14 @@
         android:text="Ofrezco"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintTop_toTopOf="@id/guiaHorizontal"
-        android:textSize="10pt"/>
+        android:textSize="16pt"/>
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
         app:layout_constraintTop_toTopOf="@id/guiaHorizontal"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="18dp"
         />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -157,5 +157,43 @@
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         android:layout_marginTop="5dp"
         style="@style/fuente_texto" />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="20dp"
+            app:fabAlignmentMode="center"
+            app:fabAnchorMode="cradle"
+            app:menu="@menu/menu_bab"
+            android:backgroundTint="@color/black"
+             />
+
+        <!--            style="@style/Widget.MaterialComponents.BottomAppBar.PrimarySurface"-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:src="@drawable/ic_add"
+            app:fabSize="normal"
+            app:layout_anchor="@+id/bottom_app_bar"
+            app:tint="@android:color/white"
+            android:layout_marginTop="50dp"
+            />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
