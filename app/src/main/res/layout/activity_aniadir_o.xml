@@ -42,7 +42,7 @@
         android:text="Ofrezco"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintTop_toTopOf="@id/guiaHorizontal"
-        android:textSize="10pt"/>
+        android:textSize="16pt"/>
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
