@@ -128,7 +128,7 @@
                 android:src="@drawable/ic_user" />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
-            app:menu="@menu/bottom_app_bar_menu" -->
+<!--            app:menu="@menu/bottom_app_bar_menu" &ndash;&gt;-->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
