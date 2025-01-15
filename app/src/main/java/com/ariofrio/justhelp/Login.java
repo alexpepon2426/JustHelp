@@ -34,4 +34,9 @@ private EditText editText;
             return insets;
         });
     }
+
+    public void goMain(View view) {
+        Intent intent = new Intent(Login.this, MainActivity.class);
+        startActivity(intent);
+    }
 }
