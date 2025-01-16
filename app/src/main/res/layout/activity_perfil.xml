@@ -70,14 +70,28 @@
     <Button
         android:layout_marginTop="10dp"
         android:id="@+id/button_ofrezco"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="OFREZCO"
         app:layout_constraintTop_toBottomOf="@id/layout"
         app:layout_constraintStart_toStartOf="@id/verticizq"
+        app:layout_constraintEnd_toStartOf="@id/button_necesito"
+
         style="@style/Botones">
     </Button>
+    <Button
+        android:id="@+id/button_necesito"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="NECESITO"
+        app:layout_constraintStart_toEndOf="@id/button_ofrezco"
+        app:layout_constraintTop_toBottomOf="@id/layout"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@id/verticdere"
+        style="@style/Botones"
+    >
 
+    </Button>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="20dp"
@@ -149,4 +163,3 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
