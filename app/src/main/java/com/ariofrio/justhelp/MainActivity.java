@@ -43,4 +43,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,AniadirO.class);
         startActivity(intent);
     }
+
+    public void goPerfil(View view) {
+        Intent intent = new Intent(MainActivity.this,Perfil.class);
+        startActivity(intent);
+    }
 }
