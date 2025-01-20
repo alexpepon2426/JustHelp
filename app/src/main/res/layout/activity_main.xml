@@ -125,7 +125,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:backgroundTint="@color/black"
-                android:src="@drawable/ic_user" />
+                android:src="@drawable/ic_user"
+                android:onClick="goPerfil"
+                />
         </com.google.android.material.bottomappbar.BottomAppBar>
 
 <!--            app:menu="@menu/bottom_app_bar_menu" &ndash;&gt;-->
@@ -139,7 +141,9 @@
             app:fabAlignmentMode="center"
             app:fabSize="auto"
             app:layout_anchor="@id/bottom_app_bar"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            android:onClick="goAnadir"
+            />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

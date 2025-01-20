@@ -17,16 +17,16 @@
             android:exported="false" />
         <activity
             android:name=".AniadirO"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AniadirP"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Info"
             android:exported="false" />
         <activity
             android:name=".Anadir"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Splash"
             android:exported="true">
