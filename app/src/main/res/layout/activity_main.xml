@@ -85,4 +85,66 @@
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
         app:layout_constraintTop_toBottomOf="@+id/button_nuevas" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="116dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <!--app:navigationIcon="@drawable/ic_burger"-->
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:color="@color/white"
+
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/black"
+            app:fabAlignmentMode="center"
+            app:fabAnchorMode="cradle"
+            app:fabCradleRoundedCornerRadius="16dp">
+
+            <ImageButton
+                android:id="@+id/btn_left"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_map" />
+
+            <ImageButton
+                android:id="@+id/btn_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_user"
+                android:onClick="goPerfil"
+                />
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+<!--            app:menu="@menu/bottom_app_bar_menu" &ndash;&gt;-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:src="@drawable/ic_add"
+            app:fabAlignmentMode="center"
+            app:fabSize="auto"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:tint="@android:color/white"
+            android:onClick="goAnadir"
+            />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

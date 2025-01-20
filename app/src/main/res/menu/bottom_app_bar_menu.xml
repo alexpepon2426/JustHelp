@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/heart"
+        android:title="Favourite"
+        android:icon="@drawable/usuario"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="2"/>
+
+    <item
+        android:id="@+id/search"
+        android:title="Language"
+        android:icon="@drawable/ubicacion"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="1"
+        />
+</menu>

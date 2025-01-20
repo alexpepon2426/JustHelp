@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Ítem del perfil de usuario -->
+    <item
+        android:id="@+id/person"
+        android:title="Usuario"
+        android:icon="@drawable/person_dark"
+        android:contentDescription="Ir al perfil de usuario"
+        app:showAsAction="always" />
+
+    <!-- Ítem de ubicación -->
+    <item
+        android:id="@+id/location"
+        android:title="Ubicación"
+        android:icon="@drawable/location_dark"
+        android:contentDescription="Ver ubicación"
+        app:showAsAction="always" />
+</menu>
