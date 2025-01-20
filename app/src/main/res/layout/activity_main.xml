@@ -10,12 +10,14 @@
 
     <EditText
         android:id="@+id/editTextText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+
+        android:layout_width="327dp"
+        android:layout_height="46dp"
+        android:background="@color/white"
         android:ems="10"
         android:inputType="text"
         android:text="@string/busqueda"
+        app:layout_constraintCircleRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
         app:layout_constraintTop_toTopOf="@+id/guidelineU" />

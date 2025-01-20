@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "583137466223",
+    "project_id": "jhelp-54e7c",
+    "storage_bucket": "jhelp-54e7c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583137466223:android:dde7e205f22b8954c1ba9a",
+        "android_client_info": {
+          "package_name": "com.ariofrio.justhelp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA74hpfXtj--xtzsz0E6QheOODxHv7i7Ts"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
