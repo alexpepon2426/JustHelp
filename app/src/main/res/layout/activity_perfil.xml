@@ -40,18 +40,20 @@
         tools:layout_editor_absoluteY="1dp"
         app:layout_constraintTop_toBottomOf="@id/guiahorizontal"
         app:layout_constraintStart_toStartOf="@id/verticizq"
-        app:layout_constraintEnd_toEndOf="@id/verticdere">
-
+        app:layout_constraintEnd_toEndOf="@id/verticdere"
+        android:background="@color/white"
+       >
         <ImageView
             android:id="@+id/imagenperfil"
             android:layout_width="150dp"
             android:layout_height="match_parent"
-             android:src="@drawable/usuario"
+            android:src="@drawable/usuariott"
             app:layout_constraintStart_toStartOf="@id/layout"
             app:layout_constraintEnd_toStartOf="@id/nombre"
             app:layout_constraintTop_toTopOf="@id/layout">
 
         </ImageView>
+
         <TextView
             android:id="@+id/nombre"
             android:layout_width="wrap_content"
@@ -72,6 +74,7 @@
             app:layout_constraintTop_toBottomOf="@id/nombre"
             app:layout_constraintStart_toEndOf="@id/imagenperfil"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
             android:textSize="15dp"
             >
 
@@ -84,6 +87,7 @@
             app:layout_constraintStart_toEndOf="@id/imagenperfil"
             app:layout_constraintTop_toBottomOf="@id/correo"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
             android:textSize="15dp">
 
         </TextView>
@@ -93,6 +97,7 @@
             android:id="@+id/direccion"
             android:text="Direccion : "
             android:textSize="15dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@id/fecha"
             app:layout_constraintStart_toEndOf="@id/imagenperfil"
             android:layout_marginTop="10dp"
