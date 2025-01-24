@@ -51,6 +51,7 @@
         >
 
         <EditText
+            android:id="@+id/nombreLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Correo electrónico*"
@@ -74,6 +75,7 @@
         >
 
         <EditText
+            android:id="@+id/passwdLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"

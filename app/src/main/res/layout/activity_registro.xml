@@ -40,6 +40,7 @@
         android:layout_marginTop="230dp"
         >
         <EditText
+            android:id="@+id/nombre2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre*"
@@ -55,6 +56,7 @@
         android:layout_marginTop="20dp"
         >
         <EditText
+            android:id="@+id/email2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Correo electrónico*"
@@ -69,9 +71,11 @@
         android:layout_marginTop="20dp"
         >
         <EditText
+            android:id="@+id/prefijo2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="+34"
+            android:text="+34"
             />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -85,6 +89,7 @@
         android:layout_marginTop="20dp"
         >
         <EditText
+            android:id="@+id/tlfn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Teléfono*"
@@ -100,6 +105,7 @@
         android:layout_marginTop="20dp"
         >
         <EditText
+            android:id="@+id/passwd2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña*"
