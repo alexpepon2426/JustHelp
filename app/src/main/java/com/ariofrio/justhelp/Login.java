@@ -36,6 +36,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 s_correo = e_correo.getText().toString();
+
                 s_contrasena = e_contrasena.getText().toString();
                 db.collection("Usuarios").document(s_correo)
                         .get()
@@ -49,16 +50,19 @@ public class Login extends AppCompatActivity {
                                         .addOnSuccessListener(documentSnapshot -> {*/
                                             String contrasenaBuena = documentSnapshot.getString("contrasena");
                                             if (contrasenaBuena.equals(s_contrasena)){ //************************************REVISAR
-                                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                                Intent intent = new Intent(Login.this, MainActivity.class); //HAY QUE MANDARLE EL CORREO A LA SIGUIENTE ACTIVITY
+                                                intent.putExtra("correo",s_correo);
                                                 startActivity(intent);
+
+                                            }else{ //PENDIENTE QUE PASA CUANDO LA CONTRASEÑA ESTA MAL
+                                                Toast.makeText(Login.this, "Contraseña incorrecta.", Toast.LENGTH_SHORT).show();
                                             }
-                                            //PENDIENTE QUE PASA CUANDO LA CONTRASEÑA ESTA MAL
+
 
 
                             } else {
                                 Toast.makeText(Login.this, "Este correo no está en la base de datos.", Toast.LENGTH_SHORT).show();
                             // El documento no existe, puedes proceder a registrarlo
-
                             }
                         })
                         .addOnFailureListener(e -> {

@@ -44,30 +44,35 @@ public class Registro extends AppCompatActivity {
                 // Comprobar que el correo no exista en BBDD
 
                 s_nombre = e_nombre.getText().toString();
+
                 s_correo = e_correo.getText().toString();
+
                 s_prefijo = e_prefijo.getText().toString();
                 s_telefono = e_telefono.getText().toString();
                 s_contrasena = e_contrasena.getText().toString();
 
-                db.collection("Usuarios").document(s_correo)
-                        .get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            if (documentSnapshot.exists()) {
-                                // El documento ya existe
-                                Toast.makeText(Registro.this, "El usuario con este correo ya está registrado", Toast.LENGTH_SHORT).show();
-                            } else {
+                if(s_correo.isEmpty()||s_nombre.isEmpty()||s_prefijo.isEmpty()||s_telefono.isEmpty()||s_contrasena.isEmpty()){
+                    Toast.makeText(Registro.this, "Rellena todos los campos.", Toast.LENGTH_SHORT).show();
+                }else{
+                    //comprueba que no exista el correo previamente
+                    db.collection("Usuarios").document(s_correo)
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
+                                    // El documento ya existe
+                                    Toast.makeText(Registro.this, "El usuario con este correo ya está registrado", Toast.LENGTH_SHORT).show();
+                                } else {
 // El documento no existe, puedes proceder a registrarlo
-                                registrarFirebase(s_nombre, s_correo, s_prefijo, s_telefono, s_contrasena);
-                                Intent intent = new Intent(Registro.this, MainActivity.class);
-                                startActivity(intent);
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            // Manejar el error al intentar comprobar la existencia
-                            Toast.makeText(Registro.this, "Error. Vuelve a intentarlo en unos minutos... " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                                    registrarFirebase(s_nombre, s_correo, s_prefijo, s_telefono, s_contrasena);
 
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                // Manejar el error al intentar comprobar la existencia
+                                Toast.makeText(Registro.this, "Error. Vuelve a intentarlo en unos minutos... " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
 
+                }
 
 
             }
@@ -94,6 +99,9 @@ public class Registro extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(Registro.this, "Usuario agregado exitosamente!", Toast.LENGTH_SHORT).show();
                                 //Log.d(TAG, "Usuario agregado exitosamente!");
+                                Intent intent = new Intent(Registro.this, MainActivity.class);
+                                intent.putExtra("correo",s_correo);
+                                startActivity(intent);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -104,6 +112,8 @@ public class Registro extends AppCompatActivity {
                             }
                         });
             }
+
+            public static boolean validaEmail(){}
         });
 
 
