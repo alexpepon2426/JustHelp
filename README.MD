@@ -31,21 +31,30 @@ El prototipo interactivo de la aplicación ha sido creado en **Figma**, y puedes
 ---
 ##  Avances
 Hemos implementado las pantallas de Login 
+
+
 <img src="img/login.png">
 
 Una pantalla de Register 
+
+
 <img src="img/register.png">
 
 **Ambas completamente funcionales.**
 
 Una pantalla Main en la que vamos a ver los anuncios de los usuarios van publicando 
+
+
 <img src="img/main.png">
 
-
 La pantalla para crear anuncios se accede con el ButtonActionBar 
+
+
 <img src="img/ofrezco.png>
 
 Cada usuario tiene un perfil, completamente personalizable en el que se pueden consultar los anuncios que ha publicado 
+
+
 <img src="img/perfil.png">
 
 
