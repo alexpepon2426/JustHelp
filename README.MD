@@ -30,7 +30,7 @@ El prototipo interactivo de la aplicación ha sido creado en **Figma**, y puedes
     
 ---
 ##  Avances
-Hemos implementado las pantallas de Login 
+Hemos implementado las pantallas de Login, register,main,perfil y ofrecer; quedaría añadir los anuncios y ver el contenido mediante la base de datos FireBase
 
 
 <img src="img/login.png">
@@ -50,7 +50,7 @@ Una pantalla Main en la que vamos a ver los anuncios de los usuarios van publica
 La pantalla para crear anuncios se accede con el ButtonActionBar 
 
 
-<img src="img/ofrezco.png>
+<img src="img/ofrezco.png">
 
 Cada usuario tiene un perfil, completamente personalizable en el que se pueden consultar los anuncios que ha publicado 
 
