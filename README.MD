@@ -7,7 +7,19 @@
 
 La aplicación está diseñada con un sistema de usuarios, por lo que es necesario crear un **perfil** para aprovechar todas las funcionalidades. A continuación, te mostramos un diagrama de secuencias que ilustra cómo se interrelacionan las **pantallas** y flujos dentro de la app:
 
-```mermaid sequenceDiagram Splash->>LoginRegistro: Navegar LoginRegistro->>Login: Seleccionar Login Login->>Main: Autenticación exitosa LoginRegistro->>Registro: Seleccionar Registro Registro->>Main: Registro exitoso Main->>Perfil: Acceder al Perfil Main->>Ofertas: Acceder a las ofertas de servicios Perfil->>Ofertas: Acceder a las ofertas de servicios Perfil->>Chat: Acceso al Chat (opcional) ```
+```mermaid  
+sequenceDiagram  
+Splash->>LoginRegistro: Navegar  
+LoginRegistro->>Login: Seleccionar Login  
+Login->>Main: Autenticación exitosa  
+LoginRegistro->>Registro: Seleccionar Registro  
+Registro->>Main: Registro exitoso  
+Main->>Perfil: Acceder al Perfil  
+Main->>Ofertas: Acceder a las ofertas de servicios  
+Perfil->>Ofertas: Acceder a las ofertas de servicios  
+Perfil->>Chat: Acceso al Chat (opcional)  
+```
+
 ## 🎨 Guía de Estilos
 
 Nuestro objetivo es crear una **identidad visual única** que refleje el propósito de la aplicación. En este sentido, estamos trabajando en la definición de elementos clave como un eslogan atractivo, una paleta de colores significativa y una tipografía adecuada para la experiencia del usuario.
