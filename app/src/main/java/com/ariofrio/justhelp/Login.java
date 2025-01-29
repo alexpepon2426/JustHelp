@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity {
     EditText e_correo, e_contrasena;
     Button b_login;
     String s_correo, s_contrasena;
-
+    EditText s_goRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,15 @@ public class Login extends AppCompatActivity {
         b_login = findViewById(R.id.boton);
         e_correo = findViewById(R.id.nombreLogin);
         e_contrasena = findViewById(R.id.passwdLogin);
+        s_goRegister = findViewById(R.id.texto);
 
+        s_goRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, Registro.class);
+                startActivity(intent);
+            }
+        });
         b_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
