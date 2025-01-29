@@ -30,9 +30,9 @@ El prototipo interactivo de la aplicación ha sido creado en **Figma**, y puedes
     
 ---
 ##  Avances
-Hemos implementado las pantallas de Login <img src="img/login.pn">
+Hemos implementado las pantallas de Login <img src="img/login.png">
 
-Una pantalla de Register <img src="register.png">
+Una pantalla de Register <img src="img/register.png">
 
 **Ambas completamente funcionales.**
 
