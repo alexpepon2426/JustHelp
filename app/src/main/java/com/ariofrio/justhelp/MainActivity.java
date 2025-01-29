@@ -2,6 +2,7 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -16,12 +17,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    String usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        Intent intent=getIntent();
+        usuario=intent.getStringExtra("correo");
+        Toast.makeText(this, "bienvenido" + usuario, Toast.LENGTH_SHORT).show();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");
         MyAdapter adapter = new MyAdapter(datalist, datalist2, datalist3);
         recyclerView.setAdapter(adapter);
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

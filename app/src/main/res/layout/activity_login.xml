@@ -50,6 +50,7 @@
         >
 
         <EditText
+            android:id="@+id/nombreLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_semibold"
@@ -72,6 +73,7 @@
         >
 
         <EditText
+            android:id="@+id/passwdLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
