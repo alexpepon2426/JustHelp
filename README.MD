@@ -70,7 +70,10 @@ Cada usuario tiene un perfil, completamente personalizable en el que se pueden c
 <img src="img/perfil.png">
 
 
+A continuación hay una grabación de la aplicación para ver su funcionalidad hasta el momento :
 
+
+<img src="img/funcionalidad.gif">
 
 ---   
 ## 🚀 ¡Únete a Nosotros!
