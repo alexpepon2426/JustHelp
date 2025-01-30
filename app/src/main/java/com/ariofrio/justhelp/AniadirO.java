@@ -42,19 +42,22 @@ import java.util.Map;
 
 public class AniadirO extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String correo;
     private Spinner spin;
     private String tipo;
-    private String id_anuncio; //COncat correo y el titulo del anuncio
-    String s_direccion, s_titulo, s_descripcion, s_categoria;
+
+    String s_direccion, s_titulo, s_descripcion, s_categoria, id_anuncio;//COncat correo y el titulo del anuncio
     EditText e_direccion, e_titulo, e_descripcion, e_categoria;
 
-    String correo; //TIENE QUE RECIBIRSE DESDE EL INTENT
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_aniadir_o);
+        Intent intent=getIntent();
+        correo=intent.getStringExtra("correo");
 
         tipo = "Ofrezco";
         TextView titulo = findViewById(R.id.titulo);
@@ -108,16 +111,6 @@ public class AniadirO extends AppCompatActivity {
 
 
 
-                // Comprobar que el correo no exista en BBDD
-
-
-
-
-
-
-
-
-
 
 
 
@@ -133,13 +126,28 @@ public class AniadirO extends AppCompatActivity {
                 s_direccion = e_direccion.getText().toString();
                 s_titulo = e_titulo.getText().toString();
                 s_descripcion = e_descripcion.getText().toString();
-
-                //chequear que s_titulo no exista en los anuncios del usuario
-
-                //Copiar a partir de la linea 67 de Registro.java *************************** !!!
+                id_anuncio=correo+s_titulo;
 
 
-                Toast.makeText(AniadirO.this, "Vas a crear un Anuncio", Toast.LENGTH_SHORT).show();
+
+                db.collection("Anuncios").document(id_anuncio)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                // El documento ya existe
+                                Toast.makeText(AniadirO.this, "Ya tienes un anuncio con ese título.", Toast.LENGTH_SHORT).show();
+                            } else {
+// El documento no existe, puedes proceder a registrarlo
+                                registrarFirebase(id_anuncio, s_titulo, s_direccion,s_categoria, correo, tipo,s_descripcion);
+
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            // Manejar el error al intentar comprobar la existencia
+                            Toast.makeText(AniadirO.this, "Error. Vuelve a intentarlo en unos minutos... " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+
             }
         });
         bottomAppBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -155,6 +163,45 @@ public class AniadirO extends AppCompatActivity {
         });
 
 
+
+
+    }
+    private void registrarFirebase(String id_anuncio,String s_titulo, String s_direccion,String s_categoria, String correo, String tipo, String s_descripcion) {
+        Map<String, Object> anuncio = new HashMap<>();
+        //usuario.put("id", 12345); // Número entero
+        anuncio.put("id", id_anuncio); // Cadena
+        anuncio.put("titulo", s_titulo); // Cadena
+        anuncio.put("direccion", s_direccion); // String
+        anuncio.put("categoria", s_categoria); // String
+        anuncio.put("correo", correo); // Número entero
+        anuncio.put("tipo", tipo); // Cadena (pero recuerda encriptar contraseñas en producción)
+        anuncio.put("descripcion", s_descripcion);
+        //Posibilidad de subir la fecha de alta ***
+        //usuario.put("edad", 30); // Ejemplo adicional de un campo numérico
+        //usuario.put("activo", true); // Booleano, puede usarse para indicar si un usuario está activo
+
+
+
+
+        db.collection("Anuncios").document(id_anuncio)
+                .set(anuncio)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AniadirO.this, "Anuncio agregado exitosamente!", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(AniadirO.this, MainActivity.class);
+                        intent.putExtra("correo",correo);
+                        startActivity(intent);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AniadirO.this, "Error al agregar anuncio.", Toast.LENGTH_SHORT).show();
+                        //Log.w(TAG, "Error al agregar usuario", e);
+                    }
+                });
     }
 }
 
