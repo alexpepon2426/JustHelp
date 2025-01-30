@@ -78,6 +78,7 @@
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:fontFamily="@font/quicksand_semibold"
+            android:inputType="textPassword"
             >
 
 

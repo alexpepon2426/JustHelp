@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="categorias">
-        <item>item1</item>
-        <item>item2</item>
-        <item>item3</item>
-        <item>item4</item>
+        <item>Salud</item>
+        <item>Educación</item>
+        <item>Eventos</item>
+        <item>Asistencia técnica</item>
+        <item>Otros</item>
     </array>
 </resources>
