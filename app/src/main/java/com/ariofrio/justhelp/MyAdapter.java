@@ -1,16 +1,23 @@
 package com.ariofrio.justhelp;
 
+import androidx.appcompat.graphics.drawable.DrawableContainerCompat.*;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+
     private List <String> dataList, dataList2, dataList3;
     public MyAdapter(List<String> dataList,List<String> dataList2,List<String> dataList3){
         this.dataList = dataList;
@@ -28,6 +35,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.textView.setText(dataList.get(position));
         holder.textView2.setText(dataList2.get(position));
         holder.textView3.setText(dataList3.get(position));
+        if(dataList3.get(position).equals("Necesito")) {
+
+            holder.textView3.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.red));
+        }
     }
     @Override
     public int getItemCount(){
