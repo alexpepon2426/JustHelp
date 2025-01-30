@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         usuario=intent.getStringExtra("correo");
-        Toast.makeText(this, "bienvenido" + usuario, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "bienvenido" + usuario, Toast.LENGTH_SHORT).show(); //Esto podría configurarse para que solo se haga desde Login
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -48,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void goAnadir(View view) {
         Intent intent = new Intent(MainActivity.this,AniadirO.class);
+        intent.putExtra("correo",usuario);
         startActivity(intent);
     }
 
+
     public void goPerfil(View view) {
         Intent intent = new Intent(MainActivity.this,Perfil.class);
+        intent.putExtra("correo",usuario);
         startActivity(intent);
     }
 }

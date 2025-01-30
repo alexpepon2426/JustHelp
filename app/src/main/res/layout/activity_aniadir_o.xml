@@ -65,6 +65,7 @@
         style="@style/campos"
         >
         <EditText
+            android:id="@+id/titulo2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_semibold"
@@ -99,6 +100,7 @@
         app:layout_constraintTop_toBottomOf="@id/text"
         style="@style/campos">
         <EditText
+            android:id="@+id/desc2"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:fontFamily="@font/quicksand_medium"
@@ -128,6 +130,7 @@
         style="@style/campos"
         >
         <EditText
+            android:id="@+id/direccion2"
             android:hint="Dirección*"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
