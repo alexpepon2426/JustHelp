@@ -94,7 +94,7 @@
         style="@style/Botones"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
-        android:onClick="goMain"
+
         android:fontFamily="@font/quicksand_semibold"
         >
 
