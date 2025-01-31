@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     List<String> datalist = new ArrayList<>();
     List<String> datalist2= new ArrayList<>();
     List<String> datalist3= new ArrayList<>();
-    int aux=0;
     String auxi;
     MyAdapter adapter;
     TextView tipoColor;
@@ -56,8 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             Map<String, Object> anuncio = document.getData();
-                            Toast.makeText(this, aux+". Err: "+(String) anuncio.get("titulo"), Toast.LENGTH_SHORT).show();
-                            aux++;
+
                             // Mostrar en consola los datos de cada anuncio (puedes usar los valores según necesites)
                             if (anuncio != null) {
                                 auxi=(String) anuncio.get("titulo");
