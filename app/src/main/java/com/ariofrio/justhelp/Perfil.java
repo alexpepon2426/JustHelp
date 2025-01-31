@@ -39,6 +39,8 @@ public class Perfil extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("Anuncios")
+                //añado el where para filtrar por correo ya almacenado en cache una vez registrado
+                .whereEqualTo("correo", correo)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
@@ -49,13 +51,15 @@ public class Perfil extends AppCompatActivity {
                             Map<String, Object> anuncio = document.getData();
 
                             // Mostrar en consola los datos de cada anuncio (puedes usar los valores según necesites)
-                            if (anuncio != null && anuncio.get("correo").equals(correo)) {
-                                auxi = (String) anuncio.get("titulo");
-                                datalist.add(auxi);
-                                auxi = (String) anuncio.get("direccion");
-                                datalist2.add(auxi);
-                                auxi = (String) anuncio.get("tipo");
-                                datalist3.add(auxi);
+                            if (anuncio != null) {
+
+                                     auxi = (String) anuncio.get("titulo");
+                                     datalist.add(auxi);
+                                     auxi = (String) anuncio.get("direccion");
+                                     datalist2.add(auxi);
+                                     auxi = (String) anuncio.get("tipo");
+                                     datalist3.add(auxi);
+
                             }
                             adapter.notifyDataSetChanged();
                             //AÑADO ESTE CODIGO
