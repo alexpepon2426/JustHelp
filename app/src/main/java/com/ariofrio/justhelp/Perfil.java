@@ -2,6 +2,7 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,15 +29,34 @@ public class Perfil extends AppCompatActivity {
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
     MyAdapter adapter;
+    TextView e_nombre,e_correo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil);
 
+        e_nombre= findViewById(R.id.nombre);
+         e_correo= findViewById(R.id.correo);
+
+
         Intent intent=getIntent();
         correo=intent.getStringExtra("correo");
+
+        e_correo.setText(correo);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Usuarios").document(correo)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String nombre = documentSnapshot.getString("nombre");
+
+                                e_nombre.setText(nombre);
+
+                            }
+
+                });
 
         db.collection("Anuncios")
                 //añado el where para filtrar por correo ya almacenado en cache una vez registrado
