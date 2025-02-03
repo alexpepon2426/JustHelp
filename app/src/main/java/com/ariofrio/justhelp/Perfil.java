@@ -112,3 +112,11 @@ public class Perfil extends AppCompatActivity {
         });
     }
 }
+
+/* esto para si cierro sesion se borre el correo del cache
+
+  SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+       SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+*/
