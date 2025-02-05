@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,7 +23,40 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+
+
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.activity.result.contract.ActivityResultContracts;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 public class Perfil extends AppCompatActivity {
+
+    private static final String CLOUD_NAME = "dntghzeqe";  // Reemplaza con tu Cloud Name
+    private static final String UPLOAD_PRESET = "img_users";  // Reemplaza con tu upload preset
+
+    private ImageView imageView;
+    private Button uploadButton;
+
+
 
     String correo,auxi;
     List<String>datalist=new ArrayList<>();
@@ -35,6 +69,17 @@ public class Perfil extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil);
+
+        imageView = findViewById(R.id.imagenperfil);
+        uploadButton = findViewById(R.id.botonimagen);
+
+        uploadButton.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            imagePickerLauncher.launch(intent);
+        });
+
+
 
         e_nombre= findViewById(R.id.nombre);
          e_correo= findViewById(R.id.correo);
@@ -111,12 +156,98 @@ public class Perfil extends AppCompatActivity {
             return insets;
         });
     }
+
+
+/*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            try {
+                File file = new File(getRealPathFromURI(data.getData()));
+                Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                imageView.setImageBitmap(bitmap);
+
+                uploadImageToCloudinary(file);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }*/
+private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                try {
+                    android.net.Uri imageUri = result.getData().getData();
+                    String filePath = getRealPathFromURI(imageUri);
+                    File file = new File(filePath);
+                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+                    imageView.setImageBitmap(bitmap);
+                    uploadImageToCloudinary(file);  // Llamamos al método para subir la imagen a Cloudinary
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    private String getRealPathFromURI(android.net.Uri contentUri) {
+        // Usar ContentResolver para obtener la ruta real del archivo
+        String[] proj = {android.provider.MediaStore.Images.Media.DATA};
+        android.database.Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(proj[0]);
+            return cursor.getString(columnIndex);
+        }
+        return null;
+    }
+
+    private void uploadImageToCloudinary(File imageFile) {
+        // Crear Retrofit instance
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.cloudinary.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        CloudinaryApiService service = retrofit.create(CloudinaryApiService.class);
+
+        // Crear RequestBody para la imagen
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", imageFile.getName(), requestFile);
+
+        // Crear RequestBody para el upload preset
+        RequestBody preset = RequestBody.create(MediaType.parse("text/plain"), UPLOAD_PRESET);
+
+        // Hacer la solicitud
+        Call<CloudinaryResponse> call = service.uploadImage(body, preset);
+        call.enqueue(new Callback<CloudinaryResponse>() {
+            @Override
+            public void onResponse(Call<CloudinaryResponse> call, Response<CloudinaryResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Cloudinary", "Imagen subida correctamente");
+                    String imageUrl = response.body().getSecureUrl(); // Usamos secure_url por ser más confiable
+                    Log.d("Cloudinary", "Imagen disponible en: " + imageUrl);
+                } else {
+                    Log.e("Cloudinary", "Error al subir la imagen");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CloudinaryResponse> call, Throwable t) {
+                Log.e("Cloudinary", "Error en la conexión", t);
+            }
+        });
+    }
+
+
+
 }
 
 /* esto para si cierro sesion se borre el correo del cache
-
-  SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-       SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+//
+//  SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+//       SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.clear();
         editor.apply();
 */
