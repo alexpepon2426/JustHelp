@@ -31,6 +31,16 @@
         android:id="@+id/verticdere">
 
     </androidx.constraintlayout.widget.Guideline>
+    <ImageButton
+        android:id="@+id/botonLogOut"
+        app:layout_constraintTop_toTopOf="@id/main"
+        app:layout_constraintEnd_toEndOf="@id/verticdere"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_log_out"
+        android:onClick="logOut"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"
@@ -42,7 +52,9 @@
         app:layout_constraintStart_toStartOf="@id/verticizq"
         app:layout_constraintEnd_toEndOf="@id/verticdere"
         android:background="@color/white"
+        android:layout_marginTop="30dp"
        >
+
         <ImageView
             android:id="@+id/imagenperfil"
             android:layout_width="150dp"
@@ -188,8 +200,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:backgroundTint="@color/black"
-                android:src="@drawable/ic_log_out"
-                android:onClick="logOut"
+                android:src="@drawable/ic_back"
+                android:onClick="goMain"
                  />
         </com.google.android.material.bottomappbar.BottomAppBar>
 

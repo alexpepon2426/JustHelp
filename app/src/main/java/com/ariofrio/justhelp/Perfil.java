@@ -130,6 +130,12 @@ public class Perfil extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    public void goMain(View view){
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("correo",correo);
+        startActivity(intent);
+        finish();
+    }
 }
 
 /* esto para si cierro sesion se borre el correo del cache
