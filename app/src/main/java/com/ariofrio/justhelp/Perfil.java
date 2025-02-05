@@ -1,6 +1,7 @@
 package com.ariofrio.justhelp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Perfil extends AppCompatActivity {
+
 
     String correo,auxi;
     List<String>datalist=new ArrayList<>();
@@ -111,6 +113,16 @@ public class Perfil extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void logOut(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // o el nombre de la clave con la que guardaste el ID
+        editor.apply();
+        Intent intent = new Intent(Perfil.this,Login.class);
+        startActivity(intent);
+        finish();
     }
     public void goAnadir(View view){
         Intent intent = new Intent(this,AniadirO.class);
