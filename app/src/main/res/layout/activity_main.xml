@@ -16,7 +16,7 @@
         android:background="@color/white"
         android:ems="10"
         android:inputType="text"
-        android:text="@string/busqueda"
+        android:hint="@string/busqueda"
         app:layout_constraintCircleRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"

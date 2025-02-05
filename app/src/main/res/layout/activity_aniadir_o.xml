@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".AniadirO"
     android:background="@color/gray"
+
     >
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guiaIz"
@@ -52,6 +53,8 @@
         app:layout_constraintTop_toTopOf="@id/guiaHorizontal"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
         android:layout_marginTop="5dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
         />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -81,15 +84,25 @@
         android:text="Categoría*"
         style="@style/fuente_texto"
         />
-    <Spinner
-        android:background="@color/white"
-        android:id="@+id/spinner"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/spinner2"
+        android:layout_marginTop="25dp"
         android:layout_width="0dp"
         android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/categoria"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
+        style="@style/campos"
+        >
+    <Spinner
+        android:background="@color/white"
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/campos"
+
         />
+    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/desc"
         android:layout_marginTop="25dp"
@@ -161,7 +174,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Selecciona la categoría que mas se ajuste"
-        app:layout_constraintTop_toBottomOf="@id/spinner"
+        app:layout_constraintTop_toBottomOf="@id/spinner2"
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         android:layout_marginTop="5dp"
         style="@style/fuente_texto" />
