@@ -37,7 +37,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.textView3.setText(dataList3.get(position));
         if(dataList3.get(position).equals("Necesito")) {
 
-            holder.textView3.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.red));
+            holder.textView3.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.darkorange));
+
         }
     }
     @Override
