@@ -210,5 +210,12 @@ public class AniadirO extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    public void goMain(View view) {
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("correo",correo);
+        startActivity(intent);
+        finish();
+    }
 }
 

@@ -191,6 +191,16 @@
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:visibility="invisible"
         />
+    <ImageButton
+        android:id="@+id/VolverMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back_light"
+        app:layout_constraintTop_toTopOf="@id/main"
+        app:layout_constraintStart_toStartOf="@id/guiaIz"
+        android:layout_marginTop="20dp"
+        android:onClick="goMain"
+        />
     <!--desactivar en java el seekbar y cambiar el titulo de ofrezco y cambiar el textview al de necesitar-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
