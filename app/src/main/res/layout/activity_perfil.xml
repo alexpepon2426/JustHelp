@@ -202,7 +202,9 @@
             app:fabAlignmentMode="center"
             app:fabSize="auto"
             app:layout_anchor="@id/bottom_app_bar"
-            app:tint="@android:color/white" />
+            app:tint="@android:color/white"
+            android:onClick="goAnadir"
+            />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

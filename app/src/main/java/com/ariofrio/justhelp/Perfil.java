@@ -2,6 +2,7 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -110,6 +111,12 @@ public class Perfil extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    public void goAnadir(View view){
+        Intent intent = new Intent(this,AniadirO.class);
+        intent.putExtra("correo",correo);
+        startActivity(intent);
+        finish();
     }
 }
 
