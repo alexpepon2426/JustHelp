@@ -203,5 +203,12 @@ public class AniadirO extends AppCompatActivity {
                     }
                 });
     }
+
+    public void goPerfil(View view) {
+        Intent intent = new Intent(this,Perfil.class);
+        intent.putExtra("correo",correo);
+        startActivity(intent);
+        finish();
+    }
 }
 
