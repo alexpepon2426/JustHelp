@@ -1,6 +1,7 @@
 package com.ariofrio.justhelp;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Perfil extends AppCompatActivity {
+    private static final int REQUEST_STORAGE_PERMISSION = 100;
 
     private static final String CLOUD_NAME = "dntghzeqe";  // Reemplaza con tu Cloud Name
     private static final String UPLOAD_PRESET = "img_users";  // Reemplaza con tu upload preset
@@ -56,7 +58,10 @@ public class Perfil extends AppCompatActivity {
     private ImageView imageView;
     private Button uploadButton;
 
+//PRUEBA
+    private TextView fech;
 
+    //PRUEBA
 
     String correo,auxi;
     List<String>datalist=new ArrayList<>();
@@ -70,12 +75,16 @@ public class Perfil extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil);
 
+        requestStoragePermission();
+
         imageView = findViewById(R.id.imagenperfil);
         uploadButton = findViewById(R.id.botonimagen);
+         fech = findViewById(R.id.fecha); //para pruebas??
 
         uploadButton.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
+
             imagePickerLauncher.launch(intent);
         });
 
@@ -182,9 +191,20 @@ private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForAc
                     android.net.Uri imageUri = result.getData().getData();
                     String filePath = getRealPathFromURI(imageUri);
                     File file = new File(filePath);
+                    if (file.exists()) {
+                        Log.d("Cloudinary", "El archivo existe y es accesible: " + file.getAbsolutePath());
+                        Toast.makeText(this, "El archivo existe y es accesible: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.e("Cloudinary", "El archivo no existe: " + file.getAbsolutePath());
+                        Toast.makeText(this, "El archivo no existe: " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
+                    }
+
+
                     Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
                     imageView.setImageBitmap(bitmap);
                     uploadImageToCloudinary(file);  // Llamamos al método para subir la imagen a Cloudinary
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -206,7 +226,7 @@ private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForAc
     private void uploadImageToCloudinary(File imageFile) {
         // Crear Retrofit instance
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.cloudinary.com/")
+                .baseUrl("https://api.cloudinary.com/v1_1/dntghzeqe/image/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -220,15 +240,22 @@ private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForAc
         RequestBody preset = RequestBody.create(MediaType.parse("text/plain"), UPLOAD_PRESET);
 
         // Hacer la solicitud
+
+
         Call<CloudinaryResponse> call = service.uploadImage(body, preset);
+
         call.enqueue(new Callback<CloudinaryResponse>() {
+
             @Override
             public void onResponse(Call<CloudinaryResponse> call, Response<CloudinaryResponse> response) {
                 if (response.isSuccessful()) {
+                    Toast.makeText(Perfil.this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show();
                     Log.d("Cloudinary", "Imagen subida correctamente");
                     String imageUrl = response.body().getSecureUrl(); // Usamos secure_url por ser más confiable
                     Log.d("Cloudinary", "Imagen disponible en: " + imageUrl);
+                    Toast.makeText(Perfil.this, "Imagen disponible en: " + imageUrl, Toast.LENGTH_SHORT).show();
                 } else {
+                    Toast.makeText(Perfil.this, "Error", Toast.LENGTH_SHORT).show();
                     Log.e("Cloudinary", "Error al subir la imagen");
                 }
             }
@@ -236,9 +263,35 @@ private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForAc
             @Override
             public void onFailure(Call<CloudinaryResponse> call, Throwable t) {
                 Log.e("Cloudinary", "Error en la conexión", t);
+                Toast.makeText(Perfil.this, "On Failure: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                String err = t.getMessage();
+                fech.setText(err);
             }
         });
+        Toast.makeText(this, "Después del enqueue", Toast.LENGTH_SHORT).show();
     }
+
+    private void requestStoragePermission() {
+        if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                    REQUEST_STORAGE_PERMISSION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_STORAGE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permiso concedido", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permiso denegado", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
 
 
