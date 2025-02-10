@@ -48,6 +48,7 @@ public class Login extends AppCompatActivity {
                 s_correo = e_correo.getText().toString();
 
                 s_contrasena = e_contrasena.getText().toString();
+
                 db.collection("Usuarios").document(s_correo)
                         .get()
                         .addOnSuccessListener(documentSnapshot -> {
