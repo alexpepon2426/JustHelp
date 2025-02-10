@@ -3,7 +3,10 @@
     <style name="Base.Theme.JustHelp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Theme.JustHelp" parent="Base.Theme.JustHelp" />
+    <style name="Theme.JustHelp" parent="Base.Theme.JustHelp" >
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

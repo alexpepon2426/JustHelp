@@ -99,7 +99,7 @@
         >
 
     </Button>
-    <EditText
+    <TextView
         android:id="@+id/texto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,6 +112,6 @@
         android:fontFamily="@font/quicksand_semibold"
         >
 
-    </EditText>
+    </TextView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

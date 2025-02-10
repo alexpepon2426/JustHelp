@@ -167,41 +167,45 @@ public class AniadirO extends AppCompatActivity {
 
     }
     private void registrarFirebase(String id_anuncio,String s_titulo, String s_direccion,String s_categoria, String correo, String tipo, String s_descripcion) {
-        Map<String, Object> anuncio = new HashMap<>();
-        //usuario.put("id", 12345); // Número entero
-        anuncio.put("id", id_anuncio); // Cadena
-        anuncio.put("titulo", s_titulo); // Cadena
-        anuncio.put("direccion", s_direccion); // String
-        anuncio.put("categoria", s_categoria); // String
-        anuncio.put("correo", correo); // Número entero
-        anuncio.put("tipo", tipo); // Cadena (pero recuerda encriptar contraseñas en producción)
-        anuncio.put("descripcion", s_descripcion);
-        //Posibilidad de subir la fecha de alta ***
-        //usuario.put("edad", 30); // Ejemplo adicional de un campo numérico
-        //usuario.put("activo", true); // Booleano, puede usarse para indicar si un usuario está activo
+        if(!(s_titulo.isEmpty())&&!(s_descripcion.isEmpty())&&!(s_direccion.isEmpty())){
+            Map<String, Object> anuncio = new HashMap<>();
+            //usuario.put("id", 12345); // Número entero
+            anuncio.put("id", id_anuncio); // Cadena
+            anuncio.put("titulo", s_titulo); // Cadena
+            anuncio.put("direccion", s_direccion); // String
+            anuncio.put("categoria", s_categoria); // String
+            anuncio.put("correo", correo); // Número entero
+            anuncio.put("tipo", tipo); // Cadena (pero recuerda encriptar contraseñas en producción)
+            anuncio.put("descripcion", s_descripcion);
+            //Posibilidad de subir la fecha de alta ***
+            //usuario.put("edad", 30); // Ejemplo adicional de un campo numérico
+            //usuario.put("activo", true); // Booleano, puede usarse para indicar si un usuario está activo
 
 
 
 
-        db.collection("Anuncios").document(id_anuncio)
-                .set(anuncio)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(AniadirO.this, "Anuncio agregado exitosamente!", Toast.LENGTH_SHORT).show();
+            db.collection("Anuncios").document(id_anuncio)
+                    .set(anuncio)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(AniadirO.this, "Anuncio agregado exitosamente!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(AniadirO.this, MainActivity.class);
-                        intent.putExtra("correo",correo);
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AniadirO.this, "Error al agregar anuncio.", Toast.LENGTH_SHORT).show();
-                        //Log.w(TAG, "Error al agregar usuario", e);
-                    }
-                });
+                            Intent intent = new Intent(AniadirO.this, MainActivity.class);
+                            intent.putExtra("correo",correo);
+                            startActivity(intent);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(AniadirO.this, "Error al agregar anuncio.", Toast.LENGTH_SHORT).show();
+                            //Log.w(TAG, "Error al agregar usuario", e);
+                        }
+                    });
+        }else{
+            Toast.makeText(this, "Por favor complete todos los compos", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void goPerfil(View view) {
