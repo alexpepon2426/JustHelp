@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -23,7 +24,7 @@ public class Login extends AppCompatActivity {
     EditText e_correo, e_contrasena;
     Button b_login;
     String s_correo, s_contrasena;
-    EditText s_goRegister;
+    TextView s_goRegister;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
