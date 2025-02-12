@@ -49,7 +49,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85"
         />
-v
     <FrameLayout
         android:id="@+id/marco"
         android:layout_width="0dp"
@@ -60,7 +59,17 @@ v
         app:layout_constraintStart_toStartOf="@id/guiaIz"
         app:layout_constraintEnd_toEndOf="@id/guiaDer"
         >
+
+        
     </FrameLayout>
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/correoInfo"
+        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
+        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
+        />
     <Switch
         android:id="@+id/boton_like"
         android:layout_width="wrap_content"
@@ -68,7 +77,8 @@ v
         app:layout_constraintTop_toTopOf="@id/guiaHorizontal"
         app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
         android:layout_marginTop="20dp"
-
+        android:scaleY="1.5"
+        android:scaleX="1.5"
         />
     <TextView
         android:id="@+id/texto_ofrece"
@@ -102,18 +112,52 @@ v
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_medium"
         />
-<!--    <com.google.android.gms.maps.MapView-->
-<!--        android:id="@+id/mapView"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/desctipcion_info"-->
-<!--        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"-->
-<!--        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"-->
-<!--        />-->
+
     <TextView
         android:id="@+id/correoInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf=""
+        app:layout_constraintTop_toBottomOf="@id/desctipcion_info"
+        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
+        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
+        android:text="Correo@correo.com"
+        android:textColor="@color/blue"
         />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guiaHorizontal3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.65"
+        android:orientation="horizontal"
+        />
+    <ImageView
+        android:id="@+id/pfp"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:src="@drawable/ic_user"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
+        app:layout_constraintTop_toTopOf="@id/guiaHorizontal3"
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/txtv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/pfp"
+        app:layout_constraintTop_toTopOf="@id/guiaHorizontal3"
+        android:text="Anunciado por:"
+        />
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/txtvAnunciante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/pfp"
+        app:layout_constraintTop_toBottomOf="@id/txtv"
+        android:text="Anunciante"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
