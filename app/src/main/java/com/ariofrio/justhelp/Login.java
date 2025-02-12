@@ -49,43 +49,47 @@ public class Login extends AppCompatActivity {
 
                 s_contrasena = e_contrasena.getText().toString();
 
-                db.collection("Usuarios").document(s_correo)
-                        .get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            if (documentSnapshot.exists()) {
-                                // El documento ya existe
-                                //compruebas pass ********************* if (){
+                if(!s_correo.isEmpty()&&!s_contrasena.isEmpty()){
+                    db.collection("Usuarios").document(s_correo)
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                if (documentSnapshot.exists()) {
+                                    // El documento ya existe
+                                    //compruebas pass ********************* if (){
 
                                /* db.collection("Usuarios").document(s_correo)
                                         .get()
                                         .addOnSuccessListener(documentSnapshot -> {*/
-                                            String contrasenaBuena = documentSnapshot.getString("contrasena");
-                                            if (contrasenaBuena.equals(s_contrasena)){ //************************************REVISAR
-                                                //Guarda el correo en la caché del teléfono
-                                                SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                editor.putString("correo", s_correo);
-                                                editor.apply();
+                                    String contrasenaBuena = documentSnapshot.getString("contrasena");
+                                    if (contrasenaBuena.equals(s_contrasena)){ //************************************REVISAR
+                                        //Guarda el correo en la caché del teléfono
+                                        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("correo", s_correo);
+                                        editor.apply();
 
-                                                Intent intent = new Intent(Login.this, MainActivity.class); //HAY QUE MANDARLE EL CORREO A LA SIGUIENTE ACTIVITY
-                                                intent.putExtra("correo",s_correo);
-                                                startActivity(intent);
-                                                finish();
-                                            }else{ //PENDIENTE QUE PASA CUANDO LA CONTRASEÑA ESTA MAL
-                                                Toast.makeText(Login.this, "Contraseña incorrecta.", Toast.LENGTH_SHORT).show();
-                                            }
+                                        Intent intent = new Intent(Login.this, MainActivity.class); //HAY QUE MANDARLE EL CORREO A LA SIGUIENTE ACTIVITY
+                                        intent.putExtra("correo",s_correo);
+                                        startActivity(intent);
+                                        finish();
+                                    }else{ //PENDIENTE QUE PASA CUANDO LA CONTRASEÑA ESTA MAL
+                                        Toast.makeText(Login.this, "Contraseña incorrecta.", Toast.LENGTH_SHORT).show();
+                                    }
 
 
 
-                            } else {
-                                Toast.makeText(Login.this, "Este correo no está en la base de datos.", Toast.LENGTH_SHORT).show();
-                            // El documento no existe, puedes proceder a registrarlo
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            // Manejar el error al intentar comprobar la existencia
-                            Toast.makeText(Login.this, "Error. Vuelve a intentarlo en unos minutos... " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                                } else {
+                                    Toast.makeText(Login.this, "Este correo no está en la base de datos.", Toast.LENGTH_SHORT).show();
+                                    // El documento no existe, puedes proceder a registrarlo
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                // Manejar el error al intentar comprobar la existencia
+                                Toast.makeText(Login.this, "Error. Vuelve a intentarlo en unos minutos... " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+                }else{
+                    Toast.makeText(Login.this, "Por favor rellena los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
