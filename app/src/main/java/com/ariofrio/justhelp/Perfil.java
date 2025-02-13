@@ -27,7 +27,7 @@ import java.util.Map;
 public class Perfil extends AppCompatActivity {
 
 
-    String correo,auxi;
+    String correo,auxi,nombre;
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
@@ -53,7 +53,7 @@ public class Perfil extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
-                                String nombre = documentSnapshot.getString("nombre");
+                               String nombre = documentSnapshot.getString("nombre");
 
                                 e_nombre.setText(nombre);
 
@@ -94,7 +94,9 @@ public class Perfil extends AppCompatActivity {
                     Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
-          RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
           recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
        /* List<String> datalist = Arrays.asList("Elemento1","Elemento2","Elemento3","Elemento4","Elemento5","Elemento1","Elemento2","Elemento3","Elemento4","Elemento5");

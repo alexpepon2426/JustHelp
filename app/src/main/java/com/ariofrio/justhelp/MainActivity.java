@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    String usuario;
+    String usuario,correo,nombre;
     List<String> datalist = new ArrayList<>();
     List<String> datalist2= new ArrayList<>();
     List<String> datalist3= new ArrayList<>();
@@ -65,11 +65,6 @@ public class MainActivity extends AppCompatActivity {
                                 auxi=(String) anuncio.get("tipo");
                                 datalist3.add(auxi);
 
-
-
-
-
-
                                 /*datalist.add(document.getString("titulo"));
                                 datalist2.add(document.getString("direccion"));
                                 datalist3.add(document.getString("tipo"));*/
@@ -89,6 +84,14 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
+        db.collection("Usuarios").document(usuario)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        nombre = documentSnapshot.getString("nombre");
+                    }
+
+                });
 
 /* Para cardviews de ejemplo.
         List<String> datalist = Arrays.asList("Elemento1","Elemento2","Elemento3","Elemento4","Elemento5","Elemento1","Elemento2","Elemento3","Elemento4","Elemento5");
