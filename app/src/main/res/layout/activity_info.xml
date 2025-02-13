@@ -80,13 +80,7 @@
         android:scaleY="1.5"
         android:scaleX="1.5"
         />
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/customSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:thumb="@drawable/custom_thumb"
-        android:track="@drawable/custom_track"
-        android:text="" />
+
 
     <TextView
         android:id="@+id/texto_ofrece"

@@ -20,10 +20,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
     private List <String> dataList, dataList2, dataList3;
-    public MyAdapter(List<String> dataList,List<String> dataList2,List<String> dataList3){
+    private String correo;
+    public MyAdapter(List<String> dataList,List<String> dataList2,List<String> dataList3,String correo){
         this.dataList = dataList;
         this.dataList2 = dataList2;
         this.dataList3 = dataList3;
+        this.correo=correo;
     }
     @NonNull
     @Override
@@ -47,7 +49,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             intent.putExtra("titulo", dataList.get(position));
             intent.putExtra("direccion", dataList2.get(position));
             intent.putExtra("tipo", dataList3.get(position));
-
+            intent.putExtra("correo",correo);
             
             v.getContext().startActivity(intent);
         });

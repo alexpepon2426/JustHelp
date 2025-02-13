@@ -102,7 +102,7 @@ public class Perfil extends AppCompatActivity {
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");*/
 
 
-         adapter = new MyAdapter(datalist, datalist2, datalist3);
+         adapter = new MyAdapter(datalist, datalist2, datalist3,correo);
         recyclerView.setAdapter(adapter);
 
 

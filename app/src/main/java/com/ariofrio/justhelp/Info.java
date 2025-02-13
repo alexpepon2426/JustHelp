@@ -21,11 +21,15 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo;
         String titulo =intent.getStringExtra("titulo");
        // String direccion = intent.getStringExtra("direccion");
         String tipo = intent.getStringExtra("tipo");
-
+        String correo = intent.getStringExtra("correo");
         e_tipo = findViewById(R.id.texto_ofrece);
         e_tipo.setText(tipo);
+
         e_titulo = findViewById(R.id.titulo_anuncio);
         e_titulo.setText(titulo);
+
+        e_correo = findViewById(R.id.correoInfo);
+        e_correo.setText(correo);
         //e_descripcion = findViewById(R.id.desctipcion_info);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
