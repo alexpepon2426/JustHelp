@@ -2,6 +2,7 @@ package com.ariofrio.justhelp;
 
 import androidx.appcompat.graphics.drawable.DrawableContainerCompat.*;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.textView3.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.darkorange));
 
         }
+        holder.itemView.setOnClickListener(v->{
+            Intent intent = new Intent(v.getContext(),Info.class);
+
+            intent.putExtra("titulo", dataList.get(position));
+            intent.putExtra("direccion", dataList2.get(position));
+            intent.putExtra("tipo", dataList3.get(position));
+
+            
+            v.getContext().startActivity(intent);
+        });
     }
     @Override
     public int getItemCount(){
