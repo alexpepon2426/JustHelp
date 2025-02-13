@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,AniadirO.class);
         intent.putExtra("correo",usuario);
         startActivity(intent);
+        finish();
     }
 
 
@@ -117,5 +118,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,Perfil.class);
         intent.putExtra("correo",usuario);
         startActivity(intent);
+        finish();
     }
 }
