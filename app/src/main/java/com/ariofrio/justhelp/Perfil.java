@@ -41,6 +41,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.IOException;
 import java.io.InputStream;
 import okhttp3.*;
+import com.bumptech.glide.Glide;
+
 
 public class Perfil extends AppCompatActivity {
 
@@ -76,6 +78,8 @@ public class Perfil extends AppCompatActivity {
         correo=intent.getStringExtra("correo");
 
         e_correo.setText(correo);
+
+        checkImageExists(); //*********** COMPROBAR SI EXISTE LA IMAGEN EN SUPABASE ******
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("Usuarios").document(correo)
@@ -232,6 +236,51 @@ public class Perfil extends AppCompatActivity {
             }
         }).start();
     }
+
+    private void checkImageExists() {
+        String filename = correo + ".jpg"; // Nombre de la imagen
+        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+
+        // Hacer una solicitud HEAD para verificar si el archivo existe
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "Bearer " + SUPABASE_API_KEY)
+                .head() // Solicitud HEAD para solo verificar los encabezados
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        new Thread(() -> {
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    // Si la respuesta es exitosa, significa que la imagen ya existe
+                    runOnUiThread(() -> {
+                        // Obtener la URL pública de la imagen
+                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
+                        // Usar Glide para cargar la imagen en el ImageView
+                        Glide.with(Perfil.this)
+                                .load(imageUrl)
+                                .into(img_perfil);  // img_perfil es tu ImageView
+                        //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Perfil.this, "IMAGE_URL: "+imageUrl, Toast.LENGTH_SHORT).show();
+                        //Log.d("ImageURL",imageUrl);
+                    });
+                } else {
+                    // Si no existe, mostrar mensaje de error
+                    runOnUiThread(() -> {
+                        //Toast.makeText(Perfil.this, "No se encontró la imagen", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    Toast.makeText(Perfil.this, "Error al verificar la imagen", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
+
 
 
 }
