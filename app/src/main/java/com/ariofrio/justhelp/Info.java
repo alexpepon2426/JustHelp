@@ -34,7 +34,7 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-// PRIMERA CONSULTA: OBTENER EL CORREO DEL CREADOR DEL ANUNCIO A PARTIR DEL TÍTULO
+
         db.collection("Anuncios")
                 .whereEqualTo("titulo", titulo)
                 .get()
@@ -44,7 +44,6 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
                         String correoAnunciante = document.getString("correo"); // Obtener el correo del creador
 
                         if (correoAnunciante != null) {
-                            // SEGUNDA CONSULTA: USAR EL CORREO PARA BUSCAR EL NOMBRE DEL CREADOR EN "Usuarios"
                             db.collection("Usuarios")
                                     .whereEqualTo("correo", correoAnunciante)
                                     .get()
