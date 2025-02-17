@@ -62,14 +62,16 @@
 
         
     </FrameLayout>
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/correoInfo"
-        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
-        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
-        />
+
+<!--    <com.google.android.gms.maps.MapView-->
+<!--        android:id="@+id/mapView2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/correoInfo"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"-->
+<!--        />-->
+
     <Switch
         android:id="@+id/boton_like"
         android:layout_width="wrap_content"
@@ -103,6 +105,15 @@
         android:fontFamily="@font/quicksand_medium"
         android:layout_marginTop="20dp"
         />
+    <org.osmdroid.views.MapView
+        android:id="@+id/osmmap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/correoInfo"
+        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
+        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
+        />
+
     <TextView
         android:id="@+id/desctipcion_info"
         android:layout_width="wrap_content"
