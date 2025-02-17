@@ -48,4 +48,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+
 }
