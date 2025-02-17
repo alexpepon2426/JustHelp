@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class Perfil extends AppCompatActivity {
     List<String>datalist3=new ArrayList<>();
     MyAdapter adapter;
     TextView e_nombre,e_correo;
+    EditText e_direccion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +42,8 @@ public class Perfil extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         e_nombre= findViewById(R.id.nombre);
-         e_correo= findViewById(R.id.correo);
-
+        e_correo= findViewById(R.id.correo);
+        e_direccion=findViewById(R.id.direccion);
 
         Intent intent=getIntent();
         correo=intent.getStringExtra("correo");
