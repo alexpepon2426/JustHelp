@@ -105,14 +105,7 @@
         android:fontFamily="@font/quicksand_medium"
         android:layout_marginTop="20dp"
         />
-    <org.osmdroid.views.MapView
-        android:id="@+id/osmmap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/correoInfo"
-        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
-        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
-        />
+
 
     <TextView
         android:id="@+id/desctipcion_info"
