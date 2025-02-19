@@ -2,12 +2,16 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,16 +27,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import java.io.IOException;
+import java.io.InputStream;
+import okhttp3.*;
+import com.bumptech.glide.Glide;
+
 
 public class Perfil extends AppCompatActivity {
 
-
+    private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co"; // Reemplaza con tu URL
+    private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZHNudHlhdHFtaWVybHpqcXFrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczOTQzODUzOSwiZXhwIjoyMDU1MDE0NTM5fQ.krLfkuIT0o9xnzCzuSzYaZIJ2j-nt7jhuSNknvlrmJ0"; // Reemplaza con tu clave API
+    private static final String BUCKET_NAME = "img_users"; // Nombre del bucket en Supabase
+    private Uri imageUri;
     String correo,auxi;
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
     MyAdapter adapter;
     TextView e_nombre,e_correo;
+    ImageView img_perfil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +64,22 @@ public class Perfil extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         e_nombre= findViewById(R.id.nombre);
-         e_correo= findViewById(R.id.correo);
+        e_correo= findViewById(R.id.correo);
+        img_perfil = findViewById(R.id.imagenperfil);
 
+        img_perfil.setOnClickListener(v -> {
+            Intent intent2 = new Intent(Intent.ACTION_PICK);
+            intent2.setType("image/*");
+
+            imagePickerLauncher.launch(intent2);
+        });
 
         Intent intent=getIntent();
         correo=intent.getStringExtra("correo");
 
         e_correo.setText(correo);
+
+        checkImageExists(); //*********** COMPROBAR SI EXISTE LA IMAGEN EN SUPABASE ******
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("Usuarios").document(correo)
@@ -136,12 +169,118 @@ public class Perfil extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    // Obtén el URI de la imagen seleccionada
+                    imageUri = result.getData().getData();
+
+                    if (imageUri != null) {
+                        // Aquí puedes usar la URI de la imagen seleccionada para mostrarla en un ImageView
+                        img_perfil.setImageURI(imageUri);
+                        uploadImage();
+
+                    }
+                }
+            });
+    private void uploadImage() {
+        if (imageUri == null) {
+            Toast.makeText(this, "Selecciona una imagen primero", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes);
+            String base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
+            sendToSupabase(base64Image);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al leer la imagen", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendToSupabase(String base64Image) {
+        String filename = correo + ".jpg";
+        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+
+        RequestBody body = RequestBody.create(
+                Base64.decode(base64Image, Base64.DEFAULT),
+                MediaType.parse("image/jpeg")
+        );
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "Bearer " + SUPABASE_API_KEY)
+                .header("Content-Type", "image/jpeg")
+                .put(body)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        new Thread(() -> {
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    Log.d("Supabase", "Imagen subida con éxito: " + url);
+                    runOnUiThread(() -> Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show());
+                } else {
+                    Log.e("Supabase", "Error al subir imagen: " + response.message());
+                    runOnUiThread(() -> Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(this, "Error de conexión", Toast.LENGTH_SHORT).show());
+            }
+        }).start();
+    }
+
+    private void checkImageExists() {
+        String filename = correo + ".jpg"; // Nombre de la imagen
+        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+
+        // Hacer una solicitud HEAD para verificar si el archivo existe
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization", "Bearer " + SUPABASE_API_KEY)
+                .head() // Solicitud HEAD para solo verificar los encabezados
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+
+        new Thread(() -> {
+            try {
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    // Si la respuesta es exitosa, significa que la imagen ya existe
+                    runOnUiThread(() -> {
+                        // Obtener la URL pública de la imagen
+                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
+                        // Usar Glide para cargar la imagen en el ImageView
+                        Glide.with(Perfil.this)
+                                .load(imageUrl)
+                                .into(img_perfil);  // img_perfil es tu ImageView
+                        //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(Perfil.this, "IMAGE_URL: "+imageUrl, Toast.LENGTH_SHORT).show();
+                        //Log.d("ImageURL",imageUrl);
+                    });
+                } else {
+                    // Si no existe, mostrar mensaje de error
+                    runOnUiThread(() -> {
+                        //Toast.makeText(Perfil.this, "No se encontró la imagen", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    Toast.makeText(Perfil.this, "Error al verificar la imagen", Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
+
+
+
 }
-
-/* esto para si cierro sesion se borre el correo del cache
-
-  SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-       SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-*/
