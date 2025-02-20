@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> datalist2 = Arrays.asList("DIRnto1","DIRo2","DIR3","DIR4","DIR5","DIRnto1","DIRo2","DIR3","DIR4","DIR5");
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");
 */
-        adapter = new MyAdapter(datalist, datalist2, datalist3,usuario,imagenes);
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
         recyclerView.setAdapter(adapter);
 
 
