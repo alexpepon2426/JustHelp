@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariofrio.justhelp.R;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -309,12 +310,18 @@ public class Perfil extends AppCompatActivity {
             byte[] bytes = new byte[inputStream.available()];
             inputStream.read(bytes);
             String base64Image = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+            // Antes de subir la nueva imagen, eliminamos la caché
+            Glide.get(this).clearMemory();
+            new Thread(() -> Glide.get(this).clearDiskCache()).start();
+
             sendToSupabase(base64Image);
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al leer la imagen", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void sendToSupabase(String base64Image) {
         String filename = correo + ".jpg";
@@ -339,7 +346,17 @@ public class Perfil extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
                     Log.d("Supabase", "Imagen subida con éxito: " + url);
-                    runOnUiThread(() -> Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show();
+
+                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
+                        Glide.with(Perfil.this)
+                                .load(imageUrl)
+                                .skipMemoryCache(true) // Saltar caché en memoria
+                                .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.NONE) // Saltar caché en disco
+                                .transform(new CircleCrop())
+                                .into(img_perfil);
+                    });
                 } else {
                     Log.e("Supabase", "Error al subir imagen: " + response.message());
                     runOnUiThread(() -> Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show());
@@ -350,6 +367,7 @@ public class Perfil extends AppCompatActivity {
             }
         }).start();
     }
+
 
     private void checkImageExists() {
         String filename = correo + ".jpg"; // Nombre de la imagen
