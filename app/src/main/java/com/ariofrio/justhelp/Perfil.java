@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariofrio.justhelp.R;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,19 +48,21 @@ import com.bumptech.glide.Glide;
 
 public class Perfil extends AppCompatActivity {
 
+
+    String correo,auxi,nombre;
     private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co"; // Reemplaza con tu URL
     private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZHNudHlhdHFtaWVybHpqcXFrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczOTQzODUzOSwiZXhwIjoyMDU1MDE0NTM5fQ.krLfkuIT0o9xnzCzuSzYaZIJ2j-nt7jhuSNknvlrmJ0"; // Reemplaza con tu clave API
     private static final String BUCKET_NAME = "img_users"; // Nombre del bucket en Supabase
     private Uri imageUri;
-    String correo,auxi;
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
     List<String> imagenes=new ArrayList<>();
-
+    Button boton_ofrezco,boton_necesito;
     MyAdapter adapter;
     TextView e_nombre,e_correo;
     ImageView img_perfil;
+    EditText e_direccion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +71,16 @@ public class Perfil extends AppCompatActivity {
 
         e_nombre= findViewById(R.id.nombre);
         e_correo= findViewById(R.id.correo);
+        e_direccion=findViewById(R.id.direccion);
+        e_correo= findViewById(R.id.correo);
         img_perfil = findViewById(R.id.imagenperfil);
+        boton_ofrezco=findViewById(R.id.button_ofrezco);
+        boton_necesito=findViewById(R.id.button_necesito);
+
+
+
+
+
 
         img_perfil.setOnClickListener(v -> {
             Intent intent2 = new Intent(Intent.ACTION_PICK);
@@ -88,7 +101,7 @@ public class Perfil extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                             if (documentSnapshot.exists()) {
-                                String nombre = documentSnapshot.getString("nombre");
+                               String nombre = documentSnapshot.getString("nombre");
 
                                 e_nombre.setText(nombre);
 
@@ -135,7 +148,9 @@ public class Perfil extends AppCompatActivity {
                     Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
-          RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
           recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
        /* List<String> datalist = Arrays.asList("Elemento1","Elemento2","Elemento3","Elemento4","Elemento5","Elemento1","Elemento2","Elemento3","Elemento4","Elemento5");
@@ -154,6 +169,98 @@ public class Perfil extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
+        boton_ofrezco.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                // **Limpiar listas antes de agregar nuevos datos**
+                datalist.clear();
+                datalist2.clear();
+                datalist3.clear();
+                imagenes.clear();
+
+                db.collection("Anuncios")
+                        .whereEqualTo("tipo", "Ofrezco")// **Filtra solo los anuncios de tipo "Ofrezco"**
+                        .whereEqualTo("correo", correo)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                    Map<String, Object> anuncio = document.getData();
+                                    if (anuncio != null) {
+                                        // Agregar datos a las listas
+                                        datalist.add((String) anuncio.get("titulo"));
+                                        datalist2.add((String) anuncio.get("direccion"));
+                                        datalist3.add((String) anuncio.get("tipo"));
+
+                                        String auxi = (String) anuncio.get("correo");
+                                        String filename = auxi + ".jpg";
+                                        String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                        imagenes.add(urlImagen);
+                                    }
+                                }
+                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                                recyclerView.setAdapter(adapter);
+                                // **Actualizar el adaptador después de modificar las listas**
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Ofrezco'", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        });
+
+        boton_necesito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                // **Limpiar listas antes de agregar nuevos datos**
+                datalist.clear();
+                datalist2.clear();
+                datalist3.clear();
+                imagenes.clear();
+
+                db.collection("Anuncios")
+                        .whereEqualTo("tipo", "Necesito")//
+                        .whereEqualTo("correo", correo)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                    Map<String, Object> anuncio = document.getData();
+                                    if (anuncio != null) {
+                                        // Agregar datos a las listas
+                                        datalist.add((String) anuncio.get("titulo"));
+                                        datalist2.add((String) anuncio.get("direccion"));
+                                        datalist3.add((String) anuncio.get("tipo"));
+
+                                        String auxi = (String) anuncio.get("correo");
+                                        String filename = auxi + ".jpg";
+                                        String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                        imagenes.add(urlImagen);
+                                    }
+                                }
+                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                                recyclerView.setAdapter(adapter);
+                                // **Actualizar el adaptador después de modificar las listas**
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+            }
+        });
+
     }
 
     public void logOut(View view) {
@@ -269,6 +376,7 @@ public class Perfil extends AppCompatActivity {
                         // Usar Glide para cargar la imagen en el ImageView
                         Glide.with(Perfil.this)
                                 .load(imageUrl)
+                                .transform(new CircleCrop())
                                 .into(img_perfil);  // img_perfil es tu ImageView
                         //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(Perfil.this, "IMAGE_URL: "+imageUrl, Toast.LENGTH_SHORT).show();

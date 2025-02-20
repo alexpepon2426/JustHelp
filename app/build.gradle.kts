@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.play.services.maps)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
@@ -54,4 +55,5 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
 
 
+    implementation ("org.osmdroid:osmdroid-android:6.1.14")
 }
