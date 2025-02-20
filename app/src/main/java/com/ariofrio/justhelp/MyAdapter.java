@@ -20,7 +20,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private List<String> dataList, dataList2, dataList3, imagenes;
     private String correo;
 
-    public MyAdapter(List<String> dataList, List<String> dataList2, List<String> dataList3, String correo, List<String> imagenes) {
+    public MyAdapter(List<String> dataList, List<String> dataList2, List<String> dataList3,  List<String> imagenes) {
         this.dataList = dataList;
         this.dataList2 = dataList2;
         this.dataList3 = dataList3;
