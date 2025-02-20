@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariofrio.justhelp.R;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -248,7 +249,7 @@ public class Perfil extends AppCompatActivity {
 
     private void checkImageExists() {
         String filename = correo + ".jpg"; // Nombre de la imagen
-        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();;
+        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename ;
 
         // Hacer una solicitud HEAD para verificar si el archivo existe
         Request request = new Request.Builder()
@@ -266,10 +267,12 @@ public class Perfil extends AppCompatActivity {
                     // Si la respuesta es exitosa, significa que la imagen ya existe
                     runOnUiThread(() -> {
                         // Obtener la URL pública de la imagen
-                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
+                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
                         // Usar Glide para cargar la imagen en el ImageView
                         Glide.with(Perfil.this)
                                 .load(imageUrl)
+                                .skipMemoryCache(true)  // Evita caché en memoria
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new CircleCrop())
                                 .into(img_perfil);  // img_perfil es tu ImageView
                         //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
