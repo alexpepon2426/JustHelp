@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 
 import java.util.List;
 
@@ -52,6 +53,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     .load(imagenUrl)
                     .placeholder(R.drawable.usuariott)
                     .error(R.drawable.usuariott)
+                    .load(imagenUrl) // URL de la imagen desde Supabase
+                    .placeholder(R.drawable.usuariott)// Imagen por defecto mientras carga
+                    .transform(new CircleCrop())
+
+                    .error(R.drawable.usuariott) // Imagen en caso de error
                     .into(holder.imageView);
         } else {
             holder.imageView.setImageResource(R.drawable.usuariott);
