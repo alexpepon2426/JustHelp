@@ -60,6 +60,7 @@
             android:layout_width="150dp"
             android:layout_height="match_parent"
             android:src="@drawable/usuariott"
+            
             app:layout_constraintStart_toStartOf="@id/layout"
             app:layout_constraintEnd_toStartOf="@id/nombre"
             app:layout_constraintTop_toTopOf="@id/layout">
