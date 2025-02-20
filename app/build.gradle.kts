@@ -11,8 +11,8 @@ android {
         applicationId = "com.ariofrio.justhelp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = 5
+        versionName = "1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,5 +49,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.github.bumptech.glide:glide:4.12.0")// o la última versión
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0") // o la última versión
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
+
+
     implementation ("org.osmdroid:osmdroid-android:6.1.14")
 }
