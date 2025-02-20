@@ -39,6 +39,11 @@ import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+
 
 public class AniadirO extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -46,7 +51,7 @@ public class AniadirO extends AppCompatActivity {
     private Spinner spin;
     private String tipo;
 
-    String s_direccion, s_titulo, s_descripcion, s_categoria, id_anuncio;//COncat correo y el titulo del anuncio
+    String s_direccion, s_titulo, s_descripcion, s_categoria, id_anuncio,fecha;//COncat correo y el titulo del anuncio
     EditText e_direccion, e_titulo, e_descripcion, e_categoria;
 
 
@@ -65,6 +70,10 @@ public class AniadirO extends AppCompatActivity {
         e_direccion = findViewById(R.id.direccion2);
         e_descripcion= findViewById(R.id.desc2);
         e_titulo= findViewById(R.id.titulo2);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        fecha = formatter.format(new Date());
+
 
 
 
@@ -177,6 +186,7 @@ public class AniadirO extends AppCompatActivity {
             anuncio.put("correo", correo); // Número entero
             anuncio.put("tipo", tipo); // Cadena (pero recuerda encriptar contraseñas en producción)
             anuncio.put("descripcion", s_descripcion);
+            anuncio.put("fecha", fecha);
             //Posibilidad de subir la fecha de alta ***
             //usuario.put("edad", 30); // Ejemplo adicional de un campo numérico
             //usuario.put("activo", true); // Booleano, puede usarse para indicar si un usuario está activo

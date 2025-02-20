@@ -63,6 +63,7 @@ public class Perfil extends AppCompatActivity {
     TextView e_nombre,e_correo;
     ImageView img_perfil;
     EditText e_direccion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
