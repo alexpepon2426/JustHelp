@@ -400,7 +400,6 @@ public class Perfil extends AppCompatActivity {
                         //Log.d("ImageURL",imageUrl);
                     });
                 } else {
-                    // Si no existe, mostrar mensaje de error
                     runOnUiThread(() -> {
                         //Toast.makeText(Perfil.this, "No se encontró la imagen", Toast.LENGTH_SHORT).show();
                     });
