@@ -27,9 +27,14 @@ public class MainActivity extends AppCompatActivity {
     List<String> datalist = new ArrayList<>();
     List<String> datalist2= new ArrayList<>();
     List<String> datalist3= new ArrayList<>();
+    List<String> imagenes=new ArrayList<>();
     String auxi;
     MyAdapter adapter;
     TextView tipoColor;
+
+    private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co"; // Reemplaza con tu URL
+    private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZHNudHlhdHFtaWVybHpqcXFrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczOTQzODUzOSwiZXhwIjoyMDU1MDE0NTM5fQ.krLfkuIT0o9xnzCzuSzYaZIJ2j-nt7jhuSNknvlrmJ0"; // Reemplaza con tu clave API
+    private static final String BUCKET_NAME = "img_users"; // Nombre del bucket en Supabase
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         usuario=intent.getStringExtra("correo");
+
         //Toast.makeText(this, "bienvenido" + usuario, Toast.LENGTH_SHORT).show(); //Esto podría configurarse para que solo se haga desde Login
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -64,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
                                 datalist2.add(auxi);
                                 auxi=(String) anuncio.get("tipo");
                                 datalist3.add(auxi);
+
+                                auxi=(String) anuncio.get("correo");
+                                String filename =auxi + ".jpg";
+                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                imagenes.add(urlImagen);
+
+
+
+
 
                                 /*datalist.add(document.getString("titulo"));
                                 datalist2.add(document.getString("direccion"));
@@ -98,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> datalist2 = Arrays.asList("DIRnto1","DIRo2","DIR3","DIR4","DIR5","DIRnto1","DIRo2","DIR3","DIR4","DIR5");
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");
 */
-        adapter = new MyAdapter(datalist, datalist2, datalist3,usuario);
+        adapter = new MyAdapter(datalist, datalist2, datalist3,usuario,imagenes);
         recyclerView.setAdapter(adapter);
 
 
@@ -124,4 +139,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+    //comentario
 }

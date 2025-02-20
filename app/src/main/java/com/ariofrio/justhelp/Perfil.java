@@ -56,6 +56,8 @@ public class Perfil extends AppCompatActivity {
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
+    List<String> imagenes=new ArrayList<>();
+
     MyAdapter adapter;
     TextView e_nombre,e_correo;
     ImageView img_perfil;
@@ -121,6 +123,12 @@ public class Perfil extends AppCompatActivity {
                                      auxi = (String) anuncio.get("tipo");
                                      datalist3.add(auxi);
 
+                                auxi = (String) anuncio.get("correo");
+                                String filename =auxi + ".jpg";
+                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                imagenes.add(urlImagen);
+
+
                             }
                             adapter.notifyDataSetChanged();
                             //AÑADO ESTE CODIGO
@@ -142,7 +150,7 @@ public class Perfil extends AppCompatActivity {
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");*/
 
 
-         adapter = new MyAdapter(datalist, datalist2, datalist3,correo);
+         adapter = new MyAdapter(datalist, datalist2, datalist3,correo,imagenes);
         recyclerView.setAdapter(adapter);
 
 
