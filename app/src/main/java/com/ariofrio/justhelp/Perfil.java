@@ -248,7 +248,7 @@ public class Perfil extends AppCompatActivity {
 
     private void checkImageExists() {
         String filename = correo + ".jpg"; // Nombre de la imagen
-        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();;
 
         // Hacer una solicitud HEAD para verificar si el archivo existe
         Request request = new Request.Builder()
