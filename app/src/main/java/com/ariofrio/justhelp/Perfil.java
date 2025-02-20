@@ -393,6 +393,7 @@ public class Perfil extends AppCompatActivity {
                         // Usar Glide para cargar la imagen en el ImageView
                         Glide.with(Perfil.this)
                                 .load(imageUrl)
+                                .transform(new CircleCrop())
                                 .into(img_perfil);  // img_perfil es tu ImageView
                         //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(Perfil.this, "IMAGE_URL: "+imageUrl, Toast.LENGTH_SHORT).show();
