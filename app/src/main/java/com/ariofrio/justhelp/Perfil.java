@@ -48,12 +48,14 @@ import com.bumptech.glide.Glide;
 
 public class Perfil extends AppCompatActivity {
 
-
+    RecyclerView recyclerView;
     String correo,auxi,nombre;
     private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co"; // Reemplaza con tu URL
     private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZHNudHlhdHFtaWVybHpqcXFrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczOTQzODUzOSwiZXhwIjoyMDU1MDE0NTM5fQ.krLfkuIT0o9xnzCzuSzYaZIJ2j-nt7jhuSNknvlrmJ0"; // Reemplaza con tu clave API
     private static final String BUCKET_NAME = "img_users"; // Nombre del bucket en Supabase
     private Uri imageUri;
+    private boolean filtroOfrezcoActivo = false;
+    private boolean filtroNecesitoActivo = false;
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
@@ -151,7 +153,7 @@ public class Perfil extends AppCompatActivity {
 
 
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+         recyclerView = findViewById(R.id.recyclerView);
           recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
        /* List<String> datalist = Arrays.asList("Elemento1","Elemento2","Elemento3","Elemento4","Elemento5","Elemento1","Elemento2","Elemento3","Elemento4","Elemento5");
@@ -175,90 +177,102 @@ public class Perfil extends AppCompatActivity {
         boton_ofrezco.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                if (filtroOfrezcoActivo) {
+                    // Si ya está activo, mostrar todos los anuncios nuevamente
+                    cargarTodosLosAnuncios();
+                    filtroOfrezcoActivo = false;
+                } else {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                // **Limpiar listas antes de agregar nuevos datos**
-                datalist.clear();
-                datalist2.clear();
-                datalist3.clear();
-                imagenes.clear();
+                    datalist.clear();
+                    datalist2.clear();
+                    datalist3.clear();
+                    imagenes.clear();
 
-                db.collection("Anuncios")
-                        .whereEqualTo("tipo", "Ofrezco")// **Filtra solo los anuncios de tipo "Ofrezco"**
-                        .whereEqualTo("correo", correo)
-                        .get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            if (!queryDocumentSnapshots.isEmpty()) {
-                                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                                    Map<String, Object> anuncio = document.getData();
-                                    if (anuncio != null) {
-                                        // Agregar datos a las listas
-                                        datalist.add((String) anuncio.get("titulo"));
-                                        datalist2.add((String) anuncio.get("direccion"));
-                                        datalist3.add((String) anuncio.get("tipo"));
+                    db.collection("Anuncios")
+                            .whereEqualTo("tipo", "Ofrezco")
+                            .whereEqualTo("correo", correo)
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                        Map<String, Object> anuncio = document.getData();
+                                        if (anuncio != null) {
+                                            datalist.add((String) anuncio.get("titulo"));
+                                            datalist2.add((String) anuncio.get("direccion"));
+                                            datalist3.add((String) anuncio.get("tipo"));
 
-                                        String auxi = (String) anuncio.get("correo");
-                                        String filename = auxi + ".jpg";
-                                        String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
-                                        imagenes.add(urlImagen);
+                                            String auxi = (String) anuncio.get("correo");
+                                            String filename = auxi + ".jpg";
+                                            String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                            imagenes.add(urlImagen);
+                                        }
                                     }
+                                    adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                                    recyclerView.setAdapter(adapter);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Ofrezco'", Toast.LENGTH_SHORT).show();
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
-                                recyclerView.setAdapter(adapter);
-                                // **Actualizar el adaptador después de modificar las listas**
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Ofrezco'", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+
+                    filtroOfrezcoActivo = true;
+                    filtroNecesitoActivo = false; // Desactivar otro filtro si estaba activo
+                }
             }
         });
+
 
         boton_necesito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                if (filtroNecesitoActivo) {
+                    cargarTodosLosAnuncios();
+                    filtroNecesitoActivo = false;
+                } else {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                // **Limpiar listas antes de agregar nuevos datos**
-                datalist.clear();
-                datalist2.clear();
-                datalist3.clear();
-                imagenes.clear();
+                    datalist.clear();
+                    datalist2.clear();
+                    datalist3.clear();
+                    imagenes.clear();
 
-                db.collection("Anuncios")
-                        .whereEqualTo("tipo", "Necesito")//
-                        .whereEqualTo("correo", correo)
-                        .get()
-                        .addOnSuccessListener(queryDocumentSnapshots -> {
-                            if (!queryDocumentSnapshots.isEmpty()) {
-                                for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                                    Map<String, Object> anuncio = document.getData();
-                                    if (anuncio != null) {
-                                        // Agregar datos a las listas
-                                        datalist.add((String) anuncio.get("titulo"));
-                                        datalist2.add((String) anuncio.get("direccion"));
-                                        datalist3.add((String) anuncio.get("tipo"));
+                    db.collection("Anuncios")
+                            .whereEqualTo("tipo", "Necesito")
+                            .whereEqualTo("correo", correo)
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                                        Map<String, Object> anuncio = document.getData();
+                                        if (anuncio != null) {
+                                            datalist.add((String) anuncio.get("titulo"));
+                                            datalist2.add((String) anuncio.get("direccion"));
+                                            datalist3.add((String) anuncio.get("tipo"));
 
-                                        String auxi = (String) anuncio.get("correo");
-                                        String filename = auxi + ".jpg";
-                                        String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
-                                        imagenes.add(urlImagen);
+                                            String auxi = (String) anuncio.get("correo");
+                                            String filename = auxi + ".jpg";
+                                            String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                            imagenes.add(urlImagen);
+                                        }
                                     }
+                                    adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                                    recyclerView.setAdapter(adapter);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
-                                recyclerView.setAdapter(adapter);
-                                // **Actualizar el adaptador después de modificar las listas**
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+
+                    filtroNecesitoActivo = true;
+                    filtroOfrezcoActivo = false;
+                }
             }
         });
 
@@ -413,6 +427,45 @@ public class Perfil extends AppCompatActivity {
             }
         }).start();
     }
+    private void cargarTodosLosAnuncios() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Limpiar listas antes de agregar nuevos datos
+        datalist.clear();
+        datalist2.clear();
+        datalist3.clear();
+        imagenes.clear();
+
+        db.collection("Anuncios")
+                .whereEqualTo("correo", correo) // Solo los anuncios del usuario
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Map<String, Object> anuncio = document.getData();
+                            if (anuncio != null) {
+                                datalist.add((String) anuncio.get("titulo"));
+                                datalist2.add((String) anuncio.get("direccion"));
+                                datalist3.add((String) anuncio.get("tipo"));
+
+                                String auxi = (String) anuncio.get("correo");
+                                String filename = auxi + ".jpg";
+                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                imagenes.add(urlImagen);
+                            }
+                        }
+                         adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(Perfil.this, "No hay anuncios disponibles", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
 
 
 
