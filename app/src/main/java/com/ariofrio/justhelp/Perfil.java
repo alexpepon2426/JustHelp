@@ -58,6 +58,7 @@ public class Perfil extends AppCompatActivity {
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
     List<String> imagenes=new ArrayList<>();
+    List<String> correoA=new ArrayList<>();
     Button boton_ofrezco,boton_necesito;
     MyAdapter adapter;
     TextView e_nombre,e_correo;
@@ -132,7 +133,7 @@ public class Perfil extends AppCompatActivity {
                                      datalist3.add(auxi);
 
                                 auxi = (String) anuncio.get("correo");
-                                correo=auxi;
+                                correoA.add(auxi);
                                 String filename =auxi + ".jpg";
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
@@ -159,7 +160,7 @@ public class Perfil extends AppCompatActivity {
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");*/
 
 
-         adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correo);
+         adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
         recyclerView.setAdapter(adapter);
 
 
@@ -182,6 +183,7 @@ public class Perfil extends AppCompatActivity {
                 datalist2.clear();
                 datalist3.clear();
                 imagenes.clear();
+                correoA.clear();
 
                 db.collection("Anuncios")
                         .whereEqualTo("tipo", "Ofrezco")// **Filtra solo los anuncios de tipo "Ofrezco"**
@@ -198,12 +200,13 @@ public class Perfil extends AppCompatActivity {
                                         datalist3.add((String) anuncio.get("tipo"));
 
                                         String auxi = (String) anuncio.get("correo");
+                                        correoA.add(auxi);
                                         String filename = auxi + ".jpg";
                                         String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                         imagenes.add(urlImagen);
                                     }
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correo);
+                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
                                 recyclerView.setAdapter(adapter);
                                 // **Actualizar el adaptador después de modificar las listas**
                                 adapter.notifyDataSetChanged();
@@ -227,6 +230,7 @@ public class Perfil extends AppCompatActivity {
                 datalist2.clear();
                 datalist3.clear();
                 imagenes.clear();
+                correoA.clear();
 
                 db.collection("Anuncios")
                         .whereEqualTo("tipo", "Necesito")//
@@ -243,12 +247,13 @@ public class Perfil extends AppCompatActivity {
                                         datalist3.add((String) anuncio.get("tipo"));
 
                                         String auxi = (String) anuncio.get("correo");
+                                        correoA.add(auxi);
                                         String filename = auxi + ".jpg";
                                         String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                         imagenes.add(urlImagen);
                                     }
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correo);
+                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
                                 recyclerView.setAdapter(adapter);
                                 // **Actualizar el adaptador después de modificar las listas**
                                 adapter.notifyDataSetChanged();

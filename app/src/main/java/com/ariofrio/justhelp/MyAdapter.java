@@ -18,11 +18,11 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private List<String> dataList, dataList2, dataList3, imagenes;
-    private String correoA;
+    private List<String> dataList, dataList2, dataList3, imagenes, correoA;
+
     private String usuario;
 
-    public MyAdapter(List<String> dataList, List<String> dataList2, List<String> dataList3,  List<String> imagenes, String usuario, String correoA) {
+    public MyAdapter(List<String> dataList, List<String> dataList2, List<String> dataList3,  List<String> imagenes, String usuario, List<String> correoA) {
         this.dataList = dataList;
         this.dataList2 = dataList2;
         this.dataList3 = dataList3;
@@ -71,7 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             intent.putExtra("titulo", dataList.get(position));
             intent.putExtra("direccion", dataList2.get(position));
             intent.putExtra("tipo", dataList3.get(position));
-            intent.putExtra("correo", correoA);
+            intent.putExtra("correo", correoA.get(position));
             intent.putExtra("usuario", usuario);
             v.getContext().startActivity(intent);
         });

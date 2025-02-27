@@ -17,13 +17,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Info extends AppCompatActivity {
-String nombre,aux;
-TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
-SwitchCompat switchCompat;
+    String nombre, aux;
+    TextView e_tipo, e_titulo, e_descripcion, e_correo, e_anunciante;
+    SwitchCompat switchCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +33,22 @@ SwitchCompat switchCompat;
         setContentView(R.layout.activity_info);
         Intent intent = getIntent();
 
-        String titulo =intent.getStringExtra("titulo");
-       // String direccion = intent.getStringExtra("direccion");
+        String titulo = intent.getStringExtra("titulo");
+        // String direccion = intent.getStringExtra("direccion");
         String tipo = intent.getStringExtra("tipo");
         String correo = intent.getStringExtra("correo");
         String usuario = intent.getStringExtra("usuario");
         e_anunciante = findViewById(R.id.txtvAnunciante);
         switchCompat = findViewById(R.id.boton_like);
 
-        Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "correoA: " + correo, Toast.LENGTH_SHORT).show();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         //ESTO PONE POR DEFECTO EN DESACTIVADO EL SWITCH CORAZÓN
         switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
         switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.gray));
+
         //##################################################################################################
         //switchCompat.setChecked(); // Hay que coger el campo de la lista de favoritos! #############################
         //##################################################################################   P T E  ##############
@@ -64,14 +66,14 @@ SwitchCompat switchCompat;
 
                         Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
                         String id = correo + titulo;
-                        Toast.makeText(this, "id: "+id, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "id: " + id, Toast.LENGTH_SHORT).show();
                         if (favoritos.contains(id)) {
                             switchCompat.setChecked(true);
                             switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.red));
                         } else {
                             switchCompat.setChecked(false);
                         }
-                    }else{
+                    } else {
                         switchCompat.setChecked(false);
                         switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
                     }
@@ -89,10 +91,10 @@ SwitchCompat switchCompat;
 
                 })
                 .addOnFailureListener(e -> {
-            // Si ocurre algún error al obtener los datos
-            Toast.makeText(this, "Error al obtener datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            switchCompat.setChecked(false); // Establecer el Switch en el estado apagado
-        });
+                    // Si ocurre algún error al obtener los datos
+                    Toast.makeText(this, "Error al obtener datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    switchCompat.setChecked(false); // Establecer el Switch en el estado apagado
+                });
 
         db.collection("Anuncios")
                 .whereEqualTo("titulo", titulo)
@@ -134,24 +136,57 @@ SwitchCompat switchCompat;
         e_titulo.setText(titulo);
 
         switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.red));
-                //switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.red));
-            } else {
-                switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
-                switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.gray));
-            }
+            String id = correo + titulo;
+            db.collection("Usuarios").document(usuario)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Obtenemos la lista de favoritos actual
+                            List<String> favoritos = (List<String>) documentSnapshot.get("listaFavoritos");
+                            if (favoritos == null) {
+                                favoritos = new ArrayList<>();
+                            }
+
+                            if (isChecked) {
+                                if (!favoritos.contains(id)) {
+                                    favoritos.add(id);
+                                }
+                                switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.red));
+                                //switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.red));
+                            } else {
+                                favoritos.remove(id);
+                                switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
+                            }
+                            Map<String, Object> updatedData = new HashMap<>();
+                            updatedData.put("listaFavoritos", favoritos);
+                            db.collection("Usuarios").document(usuario)
+                                    .update(updatedData)
+                                    .addOnSuccessListener(aVoid -> {
+                                        // Operación exitosa, si es necesario, puedes hacer algo aquí
+                                        Toast.makeText(this, "Lista de favoritos actualizada", Toast.LENGTH_SHORT).show();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        // Si ocurre algún error al actualizar los datos
+                                        Toast.makeText(this, "Error al actualizar lista de favoritos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+
+                    })
+                    .addOnFailureListener(e -> {
+                        // Si ocurre algún error al obtener el documento del usuario
+                        Toast.makeText(this, "Error al obtener datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+
+            e_correo = findViewById(R.id.correoInfo);
+            //e_descripcion = findViewById(R.id.desctipcion_info);
+
+            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+                return insets;
+            });
+
+
         });
-
-        e_correo = findViewById(R.id.correoInfo);
-       //e_descripcion = findViewById(R.id.desctipcion_info);
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-
     }
 }

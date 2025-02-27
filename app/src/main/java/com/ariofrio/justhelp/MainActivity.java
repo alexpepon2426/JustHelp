@@ -23,11 +23,12 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    String usuario,correoA,nombre;
+    String usuario,nombre;
     List<String> datalist = new ArrayList<>();
     List<String> datalist2= new ArrayList<>();
     List<String> datalist3= new ArrayList<>();
     List<String> imagenes=new ArrayList<>();
+    List<String> correoA = new ArrayList<>();
     String auxi;
     MyAdapter adapter;
     TextView tipoColor;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         usuario=intent.getStringExtra("correo");
+
+        Toast.makeText(this, "usuario : "+usuario, Toast.LENGTH_SHORT).show();
 
         //Toast.makeText(this, "bienvenido" + usuario, Toast.LENGTH_SHORT).show(); //Esto podría configurarse para que solo se haga desde Login
 
@@ -73,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 auxi=(String) anuncio.get("correo");
                                 String filename =auxi + ".jpg";
-                                correoA = auxi;
+                                Toast.makeText(this, "auxi: "+auxi, Toast.LENGTH_SHORT).show();
+                                correoA.add(auxi);
+                                Toast.makeText(this, "correoA: "+correoA, Toast.LENGTH_SHORT).show();
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
 
