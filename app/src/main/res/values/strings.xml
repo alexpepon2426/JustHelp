@@ -6,4 +6,11 @@
     <string name="busqueda">Búsqueda</string>
     <string name="correo_electronico">Correo electrónico*</string>
     <string name="contrasena">Contraseña</string>
+    <string name="usuario_nuevo">¿Usuario nuevo? Create una cuenta.</string>
+    <string name="acceder" translatable="false">Acceder</string>
+    <string name="nombre" translatable="false">Nombre*</string>
+    <string name="correo_electr_nico" translatable="false">Correo electrónico*</string>
+    <string name="telefono" translatable="false">Teléfono*</string>
+    <string name="contrase_a" translatable="false">Contraseña*</string>
+    <string name="continuar" translatable="false">Continuar</string>
 </resources>
