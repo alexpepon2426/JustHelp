@@ -89,12 +89,14 @@ private TextView textView;
 
             private void registrarFirebase(String nombre, String correo, String prefijo, String telefono, String contrasena) {
                 Map<String, Object> usuario = new HashMap<>();
+                List<String> favoritos = new ArrayList<>();
                 //usuario.put("id", 12345); // Número entero
                 usuario.put("nombre", s_nombre); // Cadena
                 usuario.put("correo", s_correo); // Cadena
                 usuario.put("prefijo", s_prefijo); // String
                 usuario.put("telefono", s_telefono); // Número entero
                 usuario.put("contrasena", s_contrasena); // Cadena (pero recuerda encriptar contraseñas en producción)
+                usuario.put("listaFavoritos", favoritos);
                 //Posibilidad de subir la fecha de alta ***
                 //usuario.put("edad", 30); // Ejemplo adicional de un campo numérico
                 //usuario.put("activo", true); // Booleano, puede usarse para indicar si un usuario está activo

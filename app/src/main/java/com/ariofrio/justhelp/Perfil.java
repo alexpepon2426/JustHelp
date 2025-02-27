@@ -132,6 +132,7 @@ public class Perfil extends AppCompatActivity {
                                      datalist3.add(auxi);
 
                                 auxi = (String) anuncio.get("correo");
+                                correo=auxi;
                                 String filename =auxi + ".jpg";
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
@@ -158,7 +159,7 @@ public class Perfil extends AppCompatActivity {
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");*/
 
 
-         adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+         adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correo);
         recyclerView.setAdapter(adapter);
 
 
@@ -202,7 +203,7 @@ public class Perfil extends AppCompatActivity {
                                         imagenes.add(urlImagen);
                                     }
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correo);
                                 recyclerView.setAdapter(adapter);
                                 // **Actualizar el adaptador después de modificar las listas**
                                 adapter.notifyDataSetChanged();
@@ -247,7 +248,7 @@ public class Perfil extends AppCompatActivity {
                                         imagenes.add(urlImagen);
                                     }
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correo);
                                 recyclerView.setAdapter(adapter);
                                 // **Actualizar el adaptador después de modificar las listas**
                                 adapter.notifyDataSetChanged();

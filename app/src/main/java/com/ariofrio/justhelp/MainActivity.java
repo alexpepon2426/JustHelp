@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    String usuario,correo,nombre;
+    String usuario,correoA,nombre;
     List<String> datalist = new ArrayList<>();
     List<String> datalist2= new ArrayList<>();
     List<String> datalist3= new ArrayList<>();
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 auxi=(String) anuncio.get("correo");
                                 String filename =auxi + ".jpg";
+                                correoA = auxi;
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
 
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> datalist2 = Arrays.asList("DIRnto1","DIRo2","DIR3","DIR4","DIR5","DIRnto1","DIRo2","DIR3","DIR4","DIR5");
         List<String> datalist3 = Arrays.asList("Ofrece","NEcesito","Ofrece","sdad","zasfasf","Ofrece","NEcesito","Ofrece","sdad","zasfasf");
 */
-        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
         recyclerView.setAdapter(adapter);
 
 

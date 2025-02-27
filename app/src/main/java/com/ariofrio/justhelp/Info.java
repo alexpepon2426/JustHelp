@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -14,11 +16,15 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Info extends AppCompatActivity {
 String nombre,aux;
 TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
+SwitchCompat switchCompat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,10 +36,63 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
        // String direccion = intent.getStringExtra("direccion");
         String tipo = intent.getStringExtra("tipo");
         String correo = intent.getStringExtra("correo");
+        String usuario = intent.getStringExtra("usuario");
         e_anunciante = findViewById(R.id.txtvAnunciante);
+        switchCompat = findViewById(R.id.boton_like);
+
+        Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        //ESTO PONE POR DEFECTO EN DESACTIVADO EL SWITCH CORAZÓN
+        switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
+        switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.gray));
+        //##################################################################################################
+        //switchCompat.setChecked(); // Hay que coger el campo de la lista de favoritos! #############################
+        //##################################################################################   P T E  ##############
+
+        Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+        //Compruebo lista de anuncios del usuario
+        db.collection("Usuarios").document(usuario)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        List<String> favoritos = (List<String>) documentSnapshot.get("listaFavoritos");
+                        if (favoritos == null) {
+                            favoritos = new ArrayList<>();
+                        }
+
+                        Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+                        String id = correo + titulo;
+                        Toast.makeText(this, "id: "+id, Toast.LENGTH_SHORT).show();
+                        if (favoritos.contains(id)) {
+                            switchCompat.setChecked(true);
+                            switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.red));
+                        } else {
+                            switchCompat.setChecked(false);
+                        }
+                    }else{
+                        switchCompat.setChecked(false);
+                        switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
+                    }
+
+                    /*try {
+                        // Agregar un nuevo valor a la lista
+                        favoritos.add("Nuevo valor");
+                    }catch(Exception e){
+                        log
+                    }
+
+                    // Ahora, actualizamos el documento con la lista modificada
+                    Map<String, Object> updatedData = new HashMap<>();
+                    updatedData.put("lista_cadenas", listaVacía);*/
+
+                })
+                .addOnFailureListener(e -> {
+            // Si ocurre algún error al obtener los datos
+            Toast.makeText(this, "Error al obtener datos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            switchCompat.setChecked(false); // Establecer el Switch en el estado apagado
+        });
 
         db.collection("Anuncios")
                 .whereEqualTo("titulo", titulo)
@@ -74,6 +133,16 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
         e_titulo = findViewById(R.id.titulo_anuncio);
         e_titulo.setText(titulo);
 
+        switchCompat.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.red));
+                //switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.red));
+            } else {
+                switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.thumb_off));
+                switchCompat.setTrackTintList(ContextCompat.getColorStateList(this, R.color.gray));
+            }
+        });
+
         e_correo = findViewById(R.id.correoInfo);
        //e_descripcion = findViewById(R.id.desctipcion_info);
 
@@ -82,5 +151,7 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
     }
 }

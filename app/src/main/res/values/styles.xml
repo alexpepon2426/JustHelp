@@ -8,6 +8,7 @@
         <item name="android:layout_marginTop">50dp</item>
         <item name="android:backgroundTint">@color/green</item>
     </style>
+
     <style name="campos" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/white</item>
         <item name="boxStrokeColor">@color/gray</item>
@@ -16,6 +17,8 @@
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusBottomEnd">12dp</item>
         <item name="android:fontFamily">@font/quicksand_semibold</item>
+
+
     </style>
 
     <style name="fuente_texto">
