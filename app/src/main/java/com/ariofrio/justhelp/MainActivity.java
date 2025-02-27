@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean filtroActivo = false;
     private Button boton_new;
-    private static final int COLOR_ACTIVO = 0xFF42A5F5;
-    private static final int COLOR_ORIGINAL = 0x297350;
+    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
+    private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
     private String usuario;
     private List<String> datalist = new ArrayList<>();
     private List<String> datalist2 = new ArrayList<>();
@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     procesarDocumentos(queryDocumentSnapshots);
+                    adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(MainActivity.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -111,7 +114,28 @@ public class MainActivity extends AppCompatActivity {
         db.collection("Anuncios")
                 .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
-                .addOnSuccessListener(this::procesarDocumentos)
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Map<String, Object> anuncio = document.getData();
+                            if (anuncio != null) {
+                                datalist.add((String) anuncio.get("titulo"));
+                                datalist2.add((String) anuncio.get("direccion"));
+                                datalist3.add((String) anuncio.get("tipo"));
+
+                                String auxi = (String) anuncio.get("correo");
+                                String filename = auxi + ".jpg";
+                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                imagenes.add(urlImagen);
+                            }
+                        }
+                        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Toast.makeText(MainActivity.this, "No hay anuncios de tipo 'Ofrezco'", Toast.LENGTH_SHORT).show();
+                    }
+                })
                 .addOnFailureListener(e -> {
                     Toast.makeText(MainActivity.this, "Error al recuperar los anuncios recientes: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
@@ -138,6 +162,8 @@ public class MainActivity extends AppCompatActivity {
                 imagenes.add(urlImagen);
             }
         }
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+        recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 }
