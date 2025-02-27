@@ -125,9 +125,10 @@ public class Perfil extends AppCompatActivity {
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
 
+                                adapter.notifyDataSetChanged();
 
                             }
-                            adapter.notifyDataSetChanged();
+
                             //AÑADO ESTE CODIGO
                         }
                     }
@@ -236,6 +237,25 @@ public class Perfil extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Log.d("Supabase", "Imagen subida con éxito: " + url);
                     runOnUiThread(() -> Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show());
+
+                    // Aquí puedes actualizar la URL de la imagen para que se recargue en la lista
+
+                    String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+                    // Actualizamos la lista de imágenes
+                    for (int i = 0; i < datalist.size(); i++) {
+                        if (datalist.get(i).equals(auxi)) { // Verifica que el correo del anuncio sea el correcto
+                            imagenes.set(i, imageUrlWithTimestamp);// Actualiza la URL de la imagen correspondiente
+                            adapter.notifyItemChanged(i);
+                            break;
+
+                        }
+                    }
+
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show();
+
+                    });
+
                 } else {
                     Log.e("Supabase", "Error al subir imagen: " + response.message());
                     runOnUiThread(() -> Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show());
@@ -249,7 +269,11 @@ public class Perfil extends AppCompatActivity {
 
     private void checkImageExists() {
         String filename = correo + ".jpg"; // Nombre de la imagen
-        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename ;
+        String url = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename ;
+
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String imageUrlWithTimestamp = url + "?t=" + timestamp;
 
         // Hacer una solicitud HEAD para verificar si el archivo existe
         Request request = new Request.Builder()
@@ -267,10 +291,10 @@ public class Perfil extends AppCompatActivity {
                     // Si la respuesta es exitosa, significa que la imagen ya existe
                     runOnUiThread(() -> {
                         // Obtener la URL pública de la imagen
-                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+                       // String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
                         // Usar Glide para cargar la imagen en el ImageView
                         Glide.with(Perfil.this)
-                                .load(imageUrl)
+                                .load(imageUrlWithTimestamp)
                                 .skipMemoryCache(true)  // Evita caché en memoria
                                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new CircleCrop())
