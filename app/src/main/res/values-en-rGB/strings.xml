@@ -15,4 +15,8 @@
     <string name="telefono" translatable="false">Phone Number*</string>
     <string name="contrase_a" translatable="false">Password*</string>
     <string name="continuar" translatable="false">Continue</string>
+
+    <string name="distancia" translatable="false">Distance</string>
+    <string name="nuevas" translatable="false">New</string>
+    <string name="favoritas" translatable="false">Favourites</string>
 </resources>

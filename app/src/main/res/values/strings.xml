@@ -13,4 +13,7 @@
     <string name="telefono" translatable="false">Teléfono*</string>
     <string name="contrase_a" translatable="false">Contraseña*</string>
     <string name="continuar" translatable="false">Continuar</string>
+    <string name="distancia" translatable="false">Distancia</string>
+    <string name="nuevas" translatable="false">Nuevas</string>
+    <string name="favoritas" translatable="false">Favoritas</string>
 </resources>

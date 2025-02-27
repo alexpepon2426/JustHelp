@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Distancia"
+        android:text="@string/distancia"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
         app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Nuevas"
+        android:text="@string/nuevas"
         app:layout_constraintEnd_toStartOf="@+id/button_favoritas"
         app:layout_constraintStart_toEndOf="@+id/button_distancia"
         app:layout_constraintTop_toBottomOf="@id/editTextText" />
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Favoritas"
+        android:text="@string/favoritas"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintTop_toBottomOf="@id/editTextText" />
 <!--    android:layout_marginTop="20dp"-->
