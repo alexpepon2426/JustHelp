@@ -125,11 +125,12 @@ public class Perfil extends AppCompatActivity {
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
 
-                                adapter.notifyDataSetChanged();
+
 
                             }
 
                             //AÑADO ESTE CODIGO
+                            adapter.notifyDataSetChanged();
                         }
                     }
 
