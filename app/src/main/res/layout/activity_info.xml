@@ -117,6 +117,7 @@
         android:text="Aquí iria una breve descripción del anuncio"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_medium"
+        android:inputType="textMultiLine"
         />
 
     <TextView

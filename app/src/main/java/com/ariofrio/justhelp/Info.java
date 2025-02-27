@@ -29,9 +29,9 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
         String titulo =intent.getStringExtra("titulo");
        // String direccion = intent.getStringExtra("direccion");
         String tipo = intent.getStringExtra("tipo");
-        String correo = intent.getStringExtra("correo");
         e_anunciante = findViewById(R.id.txtvAnunciante);
-
+        e_descripcion = findViewById(R.id.desctipcion_info);
+        e_correo = findViewById(R.id.correoInfo);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
@@ -51,9 +51,15 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
                                         if (!queryDocumentSnapshots2.isEmpty()) {
                                             DocumentSnapshot document2 = queryDocumentSnapshots2.getDocuments().get(0);
                                             String nombreAnunciante = document2.getString("nombre"); // Obtener el nombre
+                                            String descripcion = document.getString("descripcion");
+                                            String correo = document.getString("correo");
 
                                             if (nombreAnunciante != null) {
                                                 e_anunciante.setText(nombreAnunciante); // Mostrar en TextView
+                                                e_descripcion.setText(descripcion);
+                                                e_correo.setText(correo);
+                                            } else {
+                                                Toast.makeText(this, "Error al recuperar el nombre del anunciante", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     })
@@ -74,8 +80,8 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
         e_titulo = findViewById(R.id.titulo_anuncio);
         e_titulo.setText(titulo);
 
-        e_correo = findViewById(R.id.correoInfo);
-       //e_descripcion = findViewById(R.id.desctipcion_info);
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
