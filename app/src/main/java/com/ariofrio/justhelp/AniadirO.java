@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
@@ -50,7 +51,7 @@ public class AniadirO extends AppCompatActivity {
     private String correo;
     private Spinner spin;
     private String tipo;
-
+    Map<String, Object> anuncio = new HashMap<>();
     String s_direccion, s_titulo, s_descripcion, s_categoria, id_anuncio,fecha;//COncat correo y el titulo del anuncio
     EditText e_direccion, e_titulo, e_descripcion, e_categoria;
 
@@ -70,9 +71,6 @@ public class AniadirO extends AppCompatActivity {
         e_direccion = findViewById(R.id.direccion2);
         e_descripcion= findViewById(R.id.desc2);
         e_titulo= findViewById(R.id.titulo2);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        fecha = formatter.format(new Date());
 
 
 
@@ -186,7 +184,7 @@ public class AniadirO extends AppCompatActivity {
             anuncio.put("correo", correo); // Número entero
             anuncio.put("tipo", tipo); // Cadena (pero recuerda encriptar contraseñas en producción)
             anuncio.put("descripcion", s_descripcion);
-            anuncio.put("fecha", fecha);
+            anuncio.put("fecha", new Timestamp(new Date()));
             //Posibilidad de subir la fecha de alta ***
             //usuario.put("edad", 30); // Ejemplo adicional de un campo numérico
             //usuario.put("activo", true); // Booleano, puede usarse para indicar si un usuario está activo
