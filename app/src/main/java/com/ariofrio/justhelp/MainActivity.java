@@ -34,18 +34,12 @@ public class MainActivity extends AppCompatActivity {
     String auxi;
     MyAdapter adapter;
     TextView tipoColor;
-
+    RecyclerView recyclerView;
     private boolean filtroActivo = false;
     private Button boton_new;
     private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
     private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
-    private String usuario;
-    private List<String> datalist = new ArrayList<>();
-    private List<String> datalist2 = new ArrayList<>();
-    private List<String> datalist3 = new ArrayList<>();
-    private List<String> imagenes = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private MyAdapter adapter;
+
     private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co";
     private static final String BUCKET_NAME = "img_users";
 
@@ -60,11 +54,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         usuario = intent.getStringExtra("correo");
 
-        Toast.makeText(this, "usuario : "+usuario, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "usuario : "+usuario, Toast.LENGTH_SHORT).show();
 
         //Toast.makeText(this, "bienvenido" + usuario, Toast.LENGTH_SHORT).show(); //Esto podría configurarse para que solo se haga desde Login
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -89,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
                                 auxi=(String) anuncio.get("correo");
                                 String filename =auxi + ".jpg";
-                                Toast.makeText(this, "auxi: "+auxi, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(this, "auxi: "+auxi, Toast.LENGTH_SHORT).show();
                                 correoA.add(auxi);
-                                Toast.makeText(this, "correoA: "+correoA, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(this, "correoA: "+correoA, Toast.LENGTH_SHORT).show();
                                 String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                 imagenes.add(urlImagen);
 
@@ -209,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                                 imagenes.add(urlImagen);
                             }
                         }
-                        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+                        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     } else {
@@ -242,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                 imagenes.add(urlImagen);
             }
         }
-        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
