@@ -14,19 +14,14 @@
         android:id="@+id/guiaiz"
         app:layout_constraintGuide_percent="0.10">
 
-
-
     </androidx.constraintlayout.widget.Guideline>
     <androidx.constraintlayout.widget.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/guiade"
-        app:layout_constraintGuide_percent="0.90">
+        app:layout_constraintGuide_percent="0.90"/>
 
-
-
-    </androidx.constraintlayout.widget.Guideline>
     <ImageView
         android:layout_marginTop="50dp"
         android:id="@+id/logo"
@@ -43,7 +38,7 @@
         android:layout_width="0dp"
         android:id="@+id/nombre"
         android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="@id/guiaiz"
+        app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toTopOf="@id/main"
         android:layout_marginTop="900px"
@@ -99,9 +94,9 @@
         >
 
     </Button>
-    <TextView
+    <Button
         android:id="@+id/texto"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="¿Usuario nuevo? Create una cuenta."
         app:layout_constraintStart_toStartOf="@id/guiaiz"
@@ -109,9 +104,11 @@
         app:layout_constraintTop_toBottomOf="@id/boton"
         android:layout_marginTop="60px"
         android:textSize="40px"
+        style="@style/Botones"
         android:fontFamily="@font/quicksand_semibold"
+        android:backgroundTint="@color/black"
         >
 
-    </TextView>
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

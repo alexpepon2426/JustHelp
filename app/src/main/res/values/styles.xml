@@ -8,6 +8,7 @@
         <item name="android:layout_marginTop">50dp</item>
         <item name="android:backgroundTint">@color/green</item>
     </style>
+
     <style name="campos" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/white</item>
         <item name="boxStrokeColor">@color/gray</item>
@@ -16,11 +17,20 @@
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusBottomEnd">12dp</item>
         <item name="android:fontFamily">@font/quicksand_semibold</item>
+
+
     </style>
 
     <style name="fuente_texto">
         <item name="android:fontFamily">@font/quicksand_medium</item>
         <item name="android:textSize">5pt</item>
     </style>
-
+    <style name="Botones_alter">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginTop">50dp</item>
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
+        <item name="android:textSize">5pt</item>
+    </style>
 </resources>
