@@ -166,5 +166,15 @@
         app:layout_constraintTop_toBottomOf="@id/txtv"
         android:text="Anunciante"
         />
-
+    <TextView
+        android:id="@+id/volver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="←"
+        app:layout_constraintTop_toTopOf="@id/main"
+        app:layout_constraintStart_toStartOf="@id/guiaIz"
+        android:textSize="30pt"
+        app:layout_constraintBottom_toTopOf="@id/texto_ofrece"
+        android:onClick="goMain"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
