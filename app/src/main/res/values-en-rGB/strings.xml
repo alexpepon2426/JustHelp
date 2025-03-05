@@ -23,4 +23,7 @@
 
     <string name="ofrezco" translatable="false">Offering</string>
     <string name="necesito" translatable="false">Needing</string>
+
+    <string name="se_ofrece" translatable="false">Is offered :</string>
+    <string name="anunciado_por" translatable="false">Announced by:</string>
 </resources>

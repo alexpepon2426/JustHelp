@@ -19,6 +19,6 @@
 
     <string name="ofrezco" translatable="false">OFREZCO</string>
     <string name="necesito" translatable="false">NECESITO</string>
-    <string name="se_ofrece">Se ofrece:</string>
-    <string name="anunciado_por">Anunciado por:</string>
+    <string name="se_ofrece" translatable="false">Se ofrece:</string>
+    <string name="anunciado_por" translatable="false">Anunciado por:</string>
 </resources>
