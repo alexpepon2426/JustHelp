@@ -16,4 +16,9 @@
     <string name="distancia" translatable="false">Distancia</string>
     <string name="nuevas" translatable="false">Nuevas</string>
     <string name="favoritas" translatable="false">Favoritas</string>
+
+    <string name="ofrezco" translatable="false">OFREZCO</string>
+    <string name="necesito" translatable="false">NECESITO</string>
+    <string name="se_ofrece">Se ofrece:</string>
+    <string name="anunciado_por">Anunciado por:</string>
 </resources>

@@ -19,4 +19,8 @@
     <string name="distancia" translatable="false">Distance</string>
     <string name="nuevas" translatable="false">New</string>
     <string name="favoritas" translatable="false">Favourites</string>
+
+
+    <string name="ofrezco" translatable="false">Offering</string>
+    <string name="necesito" translatable="false">Needing</string>
 </resources>
