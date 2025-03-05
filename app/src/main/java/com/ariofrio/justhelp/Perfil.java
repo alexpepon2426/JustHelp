@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariofrio.justhelp.R;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -142,9 +143,11 @@ public class Perfil extends AppCompatActivity {
                                 imagenes.add(urlImagen);
 
 
+
                             }
-                            adapter.notifyDataSetChanged();
+
                             //AÑADO ESTE CODIGO
+                            adapter.notifyDataSetChanged();
                         }
                     }
 
@@ -383,6 +386,34 @@ public class Perfil extends AppCompatActivity {
                                 .transform(new CircleCrop())
                                 .into(img_perfil);
                     });
+                    runOnUiThread(() -> Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show());
+
+                    // Aquí puedes actualizar la URL de la imagen para que se recargue en la lista
+
+
+                    // Actualizamos la lista de imágenes
+                    runOnUiThread(() -> {
+                        String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+
+                        Glide.with(this)
+                                .load(imageUrlWithTimestamp)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .transform(new CircleCrop())
+                                .into(img_perfil);
+
+                        for (int i = 0; i < datalist.size(); i++) {
+
+                            imagenes.set(i, imageUrlWithTimestamp);// Actualiza la URL de la imagen correspondiente
+
+
+
+
+                    }
+                        adapter.notifyDataSetChanged();
+
+                    });
+
                 } else {
                     Log.e("Supabase", "Error al subir imagen: " + response.message());
                     runOnUiThread(() -> Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show());
@@ -397,7 +428,11 @@ public class Perfil extends AppCompatActivity {
 
     private void checkImageExists() {
         String filename = correo + ".jpg"; // Nombre de la imagen
-        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+        String url = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename ;
+
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String imageUrlWithTimestamp = url + "?t=" + timestamp;
 
         // Hacer una solicitud HEAD para verificar si el archivo existe
         Request request = new Request.Builder()
@@ -415,10 +450,12 @@ public class Perfil extends AppCompatActivity {
                     // Si la respuesta es exitosa, significa que la imagen ya existe
                     runOnUiThread(() -> {
                         // Obtener la URL pública de la imagen
-                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
+                       // String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
                         // Usar Glide para cargar la imagen en el ImageView
                         Glide.with(Perfil.this)
-                                .load(imageUrl)
+                                .load(imageUrlWithTimestamp)
+                                .skipMemoryCache(true)  // Evita caché en memoria
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new CircleCrop())
                                 .into(img_perfil);  // img_perfil es tu ImageView
                         //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
@@ -476,6 +513,7 @@ public class Perfil extends AppCompatActivity {
                     Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 
 

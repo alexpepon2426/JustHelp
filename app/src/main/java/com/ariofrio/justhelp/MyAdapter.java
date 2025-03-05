@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 
 import java.util.List;
@@ -47,8 +48,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         if (dataList3.get(position).equals("Necesito")) {
             holder.textView3.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.darkorange));
         }
-
-        // Cargar imagen con Glide
         String imagenUrl = imagenes.get(position);
         if (imagenUrl != null && !imagenUrl.isEmpty()) {
             Glide.with(holder.itemView.getContext())
@@ -58,7 +57,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     .load(imagenUrl) // URL de la imagen desde Supabase
                     .placeholder(R.drawable.usuariott)// Imagen por defecto mientras carga
                     .transform(new CircleCrop())
-
+                    .skipMemoryCache(true) // No usar caché en memoria
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .error(R.drawable.usuariott) // Imagen en caso de error
                     .into(holder.imageView);
         } else {
@@ -93,5 +93,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             textView3 = itemView.findViewById(R.id.textView_tipo);
             imageView = itemView.findViewById(R.id.imageView);
         }
+
+
+
     }
+
+
+
+
+
+
+
 }
