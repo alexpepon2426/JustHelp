@@ -241,19 +241,27 @@ public class Perfil extends AppCompatActivity {
 
                     // Aquí puedes actualizar la URL de la imagen para que se recargue en la lista
 
-                    String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+
                     // Actualizamos la lista de imágenes
-                    for (int i = 0; i < datalist.size(); i++) {
-                        if (datalist.get(i).equals(auxi)) { // Verifica que el correo del anuncio sea el correcto
-                            imagenes.set(i, imageUrlWithTimestamp);// Actualiza la URL de la imagen correspondiente
-                            adapter.notifyItemChanged(i);
-                            break;
-
-                        }
-                    }
-
                     runOnUiThread(() -> {
-                        Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show();
+                        String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+
+                        Glide.with(this)
+                                .load(imageUrlWithTimestamp)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .transform(new CircleCrop())
+                                .into(img_perfil);
+
+                        for (int i = 0; i < datalist.size(); i++) {
+
+                            imagenes.set(i, imageUrlWithTimestamp);// Actualiza la URL de la imagen correspondiente
+
+
+
+
+                    }
+                        adapter.notifyDataSetChanged();
 
                     });
 
@@ -318,6 +326,7 @@ public class Perfil extends AppCompatActivity {
             }
         }).start();
     }
+
 
 
 
