@@ -18,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Map;
 
 public class Info extends AppCompatActivity {
-String nombre,aux;
+String nombre,aux,correo;
 TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
                                             DocumentSnapshot document2 = queryDocumentSnapshots2.getDocuments().get(0);
                                             String nombreAnunciante = document2.getString("nombre"); // Obtener el nombre
                                             String descripcion = document.getString("descripcion");
-                                            String correo = document.getString("correo");
+                                            correo = document.getString("correo");
 
                                             if (nombreAnunciante != null) {
                                                 e_anunciante.setText(nombreAnunciante); // Mostrar en TextView
@@ -94,5 +94,7 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
     public void goMain(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        intent.putExtra("correo",correo);
+        finish();
     }
 }

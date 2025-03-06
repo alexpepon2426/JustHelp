@@ -7,6 +7,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_marginTop">50dp</item>
         <item name="android:backgroundTint">@color/green</item>
+        <item name="android:fontFamily">@font/quicksand_medium</item>
     </style>
     <style name="campos" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/white</item>
