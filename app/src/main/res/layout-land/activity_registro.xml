@@ -38,6 +38,7 @@
         android:layout_marginTop="50dp"
         >
         <EditText
+            android:id="@+id/nombre2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre*"
@@ -54,6 +55,7 @@
         android:layout_marginStart="5dp"
         >
         <EditText
+            android:id="@+id/email2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Correo electrónico*"
@@ -68,9 +70,11 @@
         android:layout_marginTop="10dp"
         >
         <EditText
+            android:id="@+id/prefijo2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="+34"
+            android:text="+34"
             />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -84,6 +88,7 @@
         android:layout_marginTop="10dp"
         >
         <EditText
+            android:id="@+id/tlfn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Teléfono*"
@@ -99,6 +104,7 @@
         android:layout_marginTop="10dp"
         >
         <EditText
+            android:id="@+id/passwd2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña*"
@@ -113,5 +119,15 @@
         android:text="Continuar"
         android:layout_marginTop="10dp"
         style="@style/Botones" />
+    <TextView
+        android:id="@+id/volver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="←"
+        app:layout_constraintTop_toTopOf="@id/main"
+        app:layout_constraintStart_toStartOf="@id/guiaIz"
+        android:textSize="40pt"
+        app:layout_constraintBottom_toTopOf="@id/logoRegister"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

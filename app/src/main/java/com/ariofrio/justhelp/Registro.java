@@ -38,13 +38,14 @@ private TextView textView;
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_registro);
 
-
         e_nombre = findViewById(R.id.nombre2);
         e_correo = findViewById(R.id.email2);
         e_prefijo = findViewById(R.id.prefijo2);
         e_telefono = findViewById(R.id.tlfn2);
         e_contrasena = findViewById(R.id.passwd2);
         b_registro = findViewById(R.id.botonRegister);
+
+
 
         b_registro.setOnClickListener(new View.OnClickListener() {
             @Override

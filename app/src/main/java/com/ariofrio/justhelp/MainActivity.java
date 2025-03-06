@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -28,14 +28,15 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean filtroActivo = false;
     private Button boton_new;
-    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
-    private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
+    private static final int COLOR_ACTIVO = 0xFF42A5F5; // Azul para marcar el filtro
+    private static final int COLOR_ORIGINAL = 0x297350; // Verde clásico de JUSTHELP
     private String usuario;
     private List<String> datalist = new ArrayList<>();
     private List<String> datalist2 = new ArrayList<>();
     private List<String> datalist3 = new ArrayList<>();
     private List<String> imagenes = new ArrayList<>();
     private RecyclerView recyclerView;
+    private SearchView searchView;
     private MyAdapter adapter;
     private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co";
     private static final String BUCKET_NAME = "img_users";
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         boton_new = findViewById(R.id.button_nuevas);
         Intent intent = getIntent();
         usuario = intent.getStringExtra("correo");
+        searchView = findViewById(R.id.searchView);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -67,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
                 boton_new.setBackgroundColor(COLOR_ACTIVO);
             }
             filtroActivo = !filtroActivo;
+        });
+
+        // Configurar el SearchView
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                buscarEnFirestore(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                buscarEnFirestore(newText);
+                return false;
+            }
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -98,9 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     procesarDocumentos(queryDocumentSnapshots);
-                    adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(MainActivity.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -115,29 +129,31 @@ public class MainActivity extends AppCompatActivity {
                 .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
-                            Map<String, Object> anuncio = document.getData();
-                            if (anuncio != null) {
-                                datalist.add((String) anuncio.get("titulo"));
-                                datalist2.add((String) anuncio.get("direccion"));
-                                datalist3.add((String) anuncio.get("tipo"));
-
-                                String auxi = (String) anuncio.get("correo");
-                                String filename = auxi + ".jpg";
-                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
-                                imagenes.add(urlImagen);
-                            }
-                        }
-                        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(MainActivity.this, "No hay anuncios de tipo 'Ofrezco'", Toast.LENGTH_SHORT).show();
-                    }
+                    procesarDocumentos(queryDocumentSnapshots);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(MainActivity.this, "Error al recuperar los anuncios recientes: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void buscarEnFirestore(String texto) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        limpiarListas();
+
+        if (texto.isEmpty()) {
+            cargarTodosLosAnuncios();
+            return;
+        }
+
+        db.collection("Anuncios")
+                .whereGreaterThanOrEqualTo("titulo", texto)
+                .whereLessThanOrEqualTo("titulo", texto + "\uf8ff")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    procesarDocumentos(queryDocumentSnapshots);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this, "Error al buscar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 

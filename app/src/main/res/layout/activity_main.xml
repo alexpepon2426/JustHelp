@@ -8,15 +8,12 @@
     tools:context=".MainActivity"
     android:background="@color/gray">
 
-    <EditText
-        android:id="@+id/editTextText"
+    <SearchView
+        android:id="@+id/searchView"
 
         android:layout_width="327dp"
         android:layout_height="46dp"
         android:background="@color/white"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="@string/busqueda"
         app:layout_constraintCircleRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
@@ -56,7 +53,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/distancia"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <Button
         android:id="@+id/button_nuevas"
@@ -67,7 +64,7 @@
         android:text="@string/nuevas"
         app:layout_constraintEnd_toStartOf="@+id/button_favoritas"
         app:layout_constraintStart_toEndOf="@+id/button_distancia"
-        app:layout_constraintTop_toBottomOf="@id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@id/searchView" />
 
     <Button
         android:id="@+id/button_favoritas"
@@ -77,7 +74,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/favoritas"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
-        app:layout_constraintTop_toBottomOf="@id/editTextText" />
+        app:layout_constraintTop_toBottomOf="@id/searchView" />
 <!--    android:layout_marginTop="20dp"-->
     <!--        android:layout_height="527dp"-->
     <androidx.recyclerview.widget.RecyclerView

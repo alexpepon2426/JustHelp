@@ -46,11 +46,12 @@
        app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toTopOf="@id/main"
-        android:layout_marginTop="250px"
+        android:layout_marginTop="50dp"
 
         >
 
         <EditText
+            android:id="@+id/nombreLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Correo electrónico*"
@@ -75,10 +76,12 @@
         >
 
         <EditText
+            android:id="@+id/passwdLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contraseña"
             android:fontFamily="@font/quicksand_semibold"
+            android:inputType="textPassword"
             >
 
 
@@ -97,19 +100,19 @@
         app:layout_constraintEnd_toEndOf="@id/guiade">
 
     </Button>
-    <EditText
+    <Button
         android:id="@+id/texto"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="¿Usuario nuevo? Create una cuenta."
+        android:text="@string/usuario_nuevo"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toBottomOf="@id/boton"
-        android:layout_marginTop="60px"
+        android:layout_marginTop="10dp"
         android:textSize="40px"
         android:fontFamily="@font/quicksand_semibold"
+        android:backgroundTint="@color/black"
         >
-
-    </EditText>
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
