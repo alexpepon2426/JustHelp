@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tipoColor;
     RecyclerView recyclerView;
     private boolean filtroActivo = false;
-    private Button boton_new;
+    private boolean filtroActivo2 = false;
+    private Button boton_new, boton_fav;
     private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
     private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         boton_new = findViewById(R.id.button_nuevas);
+        boton_fav = findViewById(R.id.button_favoritas);
         Intent intent = getIntent();
         usuario = intent.getStringExtra("correo");
 
@@ -134,12 +136,25 @@ public class MainActivity extends AppCompatActivity {
         boton_new.setOnClickListener(view -> {
             if (filtroActivo) {
                 cargarTodosLosAnuncios();
-                boton_new.setBackgroundColor(COLOR_ORIGINAL);
+
             } else {
+                resetBotones();
                 cargarAnunciosRecientes();
-                boton_new.setBackgroundColor(COLOR_ACTIVO);
+
             }
-            filtroActivo = !filtroActivo;
+
+        });
+
+        boton_fav.setOnClickListener(view -> {
+            if (filtroActivo2) {
+                cargarTodosLosAnuncios();
+
+            } else {
+                resetBotones();
+                cargarAnunciosFavoritos();
+
+            }
+
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -147,6 +162,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void onResume(){
+        super.onResume();
+        cargarTodosLosAnuncios();
+
     }
 
     public void goAnadir(View view) {
@@ -162,10 +183,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
+    private void resetBotones(){
+        filtroActivo2=false;
+        filtroActivo=false;
+        boton_fav.setBackgroundColor(COLOR_ORIGINAL);
+        boton_new.setBackgroundColor(COLOR_ORIGINAL);
+    }
     private void cargarTodosLosAnuncios() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
+        resetBotones();
 
         db.collection("Anuncios")
                 .get()
@@ -181,9 +208,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarAnunciosRecientes() {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
-
+        boton_new.setBackgroundColor(COLOR_ACTIVO);
+        filtroActivo=true;
         db.collection("Anuncios")
                 .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
@@ -214,11 +243,84 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    //################### filtro fav
+
+    private void cargarAnunciosFavoritos() {
+        filtroActivo2=true;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        limpiarListas();
+        boton_fav.setBackgroundColor(COLOR_ACTIVO);
+
+        db.collection("Usuarios")
+                .whereEqualTo("correo", usuario)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Map<String, Object> usuarios = document.getData();
+                            if (usuarios != null) {
+                                List<String> listaFavoritos = (List<String>) usuarios.get("listaFavoritos");
+
+                                // Verificar si la lista no está vacía
+                                if (listaFavoritos != null && !listaFavoritos.isEmpty()) {
+                                    // Procesar los elementos de 'listaFavoritos'
+                                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+
+
+                                    for (String favorito : listaFavoritos) {
+                                        // Hacer algo con los elementos de la lista, por ejemplo:
+                                        db2.collection("Anuncios")
+                                                .whereEqualTo("id", favorito)
+                                                .get()
+                                                .addOnSuccessListener(queryDocumentSnapshots2 -> {
+                                                    if (!queryDocumentSnapshots2.isEmpty()) {
+                                                        for (DocumentSnapshot document2 : queryDocumentSnapshots2.getDocuments()) {
+                                                            Map<String, Object> anuncio = document2.getData();
+                                                            if (anuncio != null) {
+                                                                datalist.add((String) anuncio.get("titulo"));
+                                                                datalist2.add((String) anuncio.get("direccion"));
+                                                                datalist3.add((String) anuncio.get("tipo"));
+
+                                                                String auxi2 = (String) anuncio.get("correo");
+                                                                correoA.add(auxi2);
+                                                                String filename = auxi2 + ".jpg";
+                                                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                                                imagenes.add(urlImagen);
+                                                            }
+                                                        }
+                                                        adapter = new MyAdapter(datalist, datalist2, datalist3, imagenes, usuario, correoA);
+                                                        recyclerView.setAdapter(adapter);
+                                                        // **Actualizar el adaptador después de modificar las listas**
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                });
+
+                                    }
+
+                                }else{
+                                    limpiarListas();
+                                    Toast.makeText(this, "No tienes anuncios favoritos", Toast.LENGTH_SHORT).show();
+                                    cargarTodosLosAnuncios();
+                                }
+                            }else{
+                                limpiarListas();
+                                Toast.makeText(this, "No tienes anuncios favoritos", Toast.LENGTH_SHORT).show();
+                                cargarTodosLosAnuncios();
+                            }
+                        }
+                    }
+                });
+    }
+
+
+    //################### filtro fav
+
     private void limpiarListas() {
         datalist.clear();
         datalist2.clear();
         datalist3.clear();
         imagenes.clear();
+
     }
 
     private void procesarDocumentos(QuerySnapshot queryDocumentSnapshots) {
