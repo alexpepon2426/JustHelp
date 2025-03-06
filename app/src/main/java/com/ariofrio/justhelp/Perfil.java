@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ariofrio.justhelp.R;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,6 +57,8 @@ public class Perfil extends AppCompatActivity {
     private Uri imageUri;
     private boolean filtroOfrezcoActivo = false;
     private boolean filtroNecesitoActivo = false;
+    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
+    private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
@@ -142,9 +145,11 @@ public class Perfil extends AppCompatActivity {
                                 imagenes.add(urlImagen);
 
 
+
                             }
-                            adapter.notifyDataSetChanged();
+
                             //AÑADO ESTE CODIGO
+                            adapter.notifyDataSetChanged();
                         }
                     }
 
@@ -183,6 +188,7 @@ public class Perfil extends AppCompatActivity {
                     // Si ya está activo, mostrar todos los anuncios nuevamente
                     cargarTodosLosAnuncios();
                     filtroOfrezcoActivo = false;
+                    boton_ofrezco.setBackgroundColor(COLOR_ORIGINAL);
                 } else {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -215,6 +221,7 @@ public class Perfil extends AppCompatActivity {
                                 }
                                 adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
                                 recyclerView.setAdapter(adapter);
+                                boton_ofrezco.setBackgroundColor(COLOR_ACTIVO);
                                 // **Actualizar el adaptador después de modificar las listas**
                                 adapter.notifyDataSetChanged();
                             } else {
@@ -240,6 +247,7 @@ public class Perfil extends AppCompatActivity {
                 if (filtroNecesitoActivo) {
                     cargarTodosLosAnuncios();
                     filtroNecesitoActivo = false;
+                    boton_necesito.setBackgroundColor(COLOR_ORIGINAL);
                 } else {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -263,24 +271,25 @@ public class Perfil extends AppCompatActivity {
                                             datalist2.add((String) anuncio.get("direccion"));
                                             datalist3.add((String) anuncio.get("tipo"));
 
-                                        String auxi = (String) anuncio.get("correo");
-                                        correoA.add(auxi);
-                                        String filename = auxi + ".jpg";
-                                        String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
-                                        imagenes.add(urlImagen);
+                                            String auxi = (String) anuncio.get("correo");
+                                            correoA.add(auxi);
+                                            String filename = auxi + ".jpg";
+                                            String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                            imagenes.add(urlImagen);
+                                        }
                                     }
+                                    adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
+                                    recyclerView.setAdapter(adapter);
+                                    boton_necesito.setBackgroundColor(COLOR_ACTIVO);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
-                                recyclerView.setAdapter(adapter);
-                                // **Actualizar el adaptador después de modificar las listas**
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+
                     filtroNecesitoActivo = true;
                     filtroOfrezcoActivo = false;
                 }
@@ -383,6 +392,34 @@ public class Perfil extends AppCompatActivity {
                                 .transform(new CircleCrop())
                                 .into(img_perfil);
                     });
+                    runOnUiThread(() -> Toast.makeText(this, "Imagen subida con éxito", Toast.LENGTH_SHORT).show());
+
+                    // Aquí puedes actualizar la URL de la imagen para que se recargue en la lista
+
+
+                    // Actualizamos la lista de imágenes
+                    runOnUiThread(() -> {
+                        String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+
+                        Glide.with(this)
+                                .load(imageUrlWithTimestamp)
+                                .skipMemoryCache(true)
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                .transform(new CircleCrop())
+                                .into(img_perfil);
+
+                        for (int i = 0; i < datalist.size(); i++) {
+
+                            imagenes.set(i, imageUrlWithTimestamp);// Actualiza la URL de la imagen correspondiente
+
+
+
+
+                    }
+                        adapter.notifyDataSetChanged();
+
+                    });
+
                 } else {
                     Log.e("Supabase", "Error al subir imagen: " + response.message());
                     runOnUiThread(() -> Toast.makeText(this, "Error al subir imagen", Toast.LENGTH_SHORT).show());
@@ -397,7 +434,11 @@ public class Perfil extends AppCompatActivity {
 
     private void checkImageExists() {
         String filename = correo + ".jpg"; // Nombre de la imagen
-        String url = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+        String url = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename ;
+
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String imageUrlWithTimestamp = url + "?t=" + timestamp;
 
         // Hacer una solicitud HEAD para verificar si el archivo existe
         Request request = new Request.Builder()
@@ -415,10 +456,12 @@ public class Perfil extends AppCompatActivity {
                     // Si la respuesta es exitosa, significa que la imagen ya existe
                     runOnUiThread(() -> {
                         // Obtener la URL pública de la imagen
-                        String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename;
+                       // String imageUrl = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
                         // Usar Glide para cargar la imagen en el ImageView
                         Glide.with(Perfil.this)
-                                .load(imageUrl)
+                                .load(imageUrlWithTimestamp)
+                                .skipMemoryCache(true)  // Evita caché en memoria
+                                .diskCacheStrategy(DiskCacheStrategy.NONE)
                                 .transform(new CircleCrop())
                                 .into(img_perfil);  // img_perfil es tu ImageView
                         //Toast.makeText(Perfil.this, "Imagen encontrada y cargada", Toast.LENGTH_SHORT).show();
@@ -476,6 +519,7 @@ public class Perfil extends AppCompatActivity {
                     Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
+
 
 
 

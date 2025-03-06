@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,20 +26,25 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    String usuario,nombre;
-    List<String> datalist = new ArrayList<>();
-    List<String> datalist2= new ArrayList<>();
-    List<String> datalist3= new ArrayList<>();
-    List<String> imagenes=new ArrayList<>();
+    String nombre;
     List<String> correoA = new ArrayList<>();
     String auxi;
-    MyAdapter adapter;
     TextView tipoColor;
-    RecyclerView recyclerView;
     private boolean filtroActivo = false;
-    private Button boton_new;
-    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
-    private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
+    private Button boton_new,boton_fav;
+    private static final int COLOR_ACTIVO = 0xFF42A5F5; // Azul para marcar el filtro
+    private static final int COLOR_ORIGINAL = 0x297350; // Verde clásico de JUSTHELP
+    private String usuario;
+    private List<String> datalist = new ArrayList<>();
+    private List<String> datalist2 = new ArrayList<>();
+    private List<String> datalist3 = new ArrayList<>();
+    private List<String> imagenes = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private SearchView searchView;
+    private MyAdapter adapter;
+    private boolean filtroActivo2 = false;
+
+
 
     private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co";
     private static final String BUCKET_NAME = "img_users";
@@ -51,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         boton_new = findViewById(R.id.button_nuevas);
+        boton_fav = findViewById(R.id.button_favoritas);
         Intent intent = getIntent();
         usuario = intent.getStringExtra("correo");
+        searchView = findViewById(R.id.searchView);
 
      //   Toast.makeText(this, "usuario : "+usuario, Toast.LENGTH_SHORT).show();
 
@@ -97,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                                 datalist3.add(document.getString("tipo"));*/
                                 listaAnuncios.add(anuncio);
                             }
+                            adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
+                            recyclerView.setAdapter(adapter);
+
                             adapter.notifyDataSetChanged(); //Esto va actualizando los datos del adaptador según cambien
                         }
 
@@ -134,12 +145,40 @@ public class MainActivity extends AppCompatActivity {
         boton_new.setOnClickListener(view -> {
             if (filtroActivo) {
                 cargarTodosLosAnuncios();
-                boton_new.setBackgroundColor(COLOR_ORIGINAL);
+
             } else {
+                resetBotones();
                 cargarAnunciosRecientes();
-                boton_new.setBackgroundColor(COLOR_ACTIVO);
+
             }
-            filtroActivo = !filtroActivo;
+
+        });
+
+        boton_fav.setOnClickListener(view -> {
+            if (filtroActivo2) {
+                cargarTodosLosAnuncios();
+
+            } else {
+                resetBotones();
+                cargarAnunciosFavoritos();
+
+            }
+
+        });
+
+        // Configurar el SearchView
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                buscarEnFirestore(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                buscarEnFirestore(newText);
+                return false;
+            }
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -147,6 +186,12 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void onResume(){
+        super.onResume();
+        cargarTodosLosAnuncios();
+
     }
 
     public void goAnadir(View view) {
@@ -162,10 +207,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
+    private void resetBotones(){
+        filtroActivo2=false;
+        filtroActivo=false;
+        boton_fav.setBackgroundColor(COLOR_ORIGINAL);
+        boton_new.setBackgroundColor(COLOR_ORIGINAL);
+    }
     private void cargarTodosLosAnuncios() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
+        resetBotones();
 
         db.collection("Anuncios")
                 .get()
@@ -181,13 +232,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarAnunciosRecientes() {
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
-
+        boton_new.setBackgroundColor(COLOR_ACTIVO);
+        filtroActivo=true;
         db.collection("Anuncios")
                 .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    procesarDocumentos(queryDocumentSnapshots);
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             Map<String, Object> anuncio = document.getData();
@@ -214,11 +268,105 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void buscarEnFirestore(String texto) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        limpiarListas();
+
+        if (texto.isEmpty()) {
+            cargarTodosLosAnuncios();
+            return;
+        }
+
+        db.collection("Anuncios")
+                .whereGreaterThanOrEqualTo("titulo", texto)
+                .whereLessThanOrEqualTo("titulo", texto + "\uf8ff")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    procesarDocumentos(queryDocumentSnapshots);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MainActivity.this, "Error al buscar: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    //################### filtro fav
+
+    private void cargarAnunciosFavoritos() {
+        filtroActivo2=true;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        limpiarListas();
+        boton_fav.setBackgroundColor(COLOR_ACTIVO);
+
+        db.collection("Usuarios")
+                .whereEqualTo("correo", usuario)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
+                            Map<String, Object> usuarios = document.getData();
+                            if (usuarios != null) {
+                                List<String> listaFavoritos = (List<String>) usuarios.get("listaFavoritos");
+
+                                // Verificar si la lista no está vacía
+                                if (listaFavoritos != null && !listaFavoritos.isEmpty()) {
+                                    // Procesar los elementos de 'listaFavoritos'
+                                    FirebaseFirestore db2 = FirebaseFirestore.getInstance();
+
+
+                                    for (String favorito : listaFavoritos) {
+                                        // Hacer algo con los elementos de la lista, por ejemplo:
+                                        db2.collection("Anuncios")
+                                                .whereEqualTo("id", favorito)
+                                                .get()
+                                                .addOnSuccessListener(queryDocumentSnapshots2 -> {
+                                                    if (!queryDocumentSnapshots2.isEmpty()) {
+                                                        for (DocumentSnapshot document2 : queryDocumentSnapshots2.getDocuments()) {
+                                                            Map<String, Object> anuncio = document2.getData();
+                                                            if (anuncio != null) {
+                                                                datalist.add((String) anuncio.get("titulo"));
+                                                                datalist2.add((String) anuncio.get("direccion"));
+                                                                datalist3.add((String) anuncio.get("tipo"));
+
+                                                                String auxi2 = (String) anuncio.get("correo");
+                                                                correoA.add(auxi2);
+                                                                String filename = auxi2 + ".jpg";
+                                                                String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                                                imagenes.add(urlImagen);
+                                                            }
+                                                        }
+                                                        adapter = new MyAdapter(datalist, datalist2, datalist3, imagenes, usuario, correoA);
+                                                        recyclerView.setAdapter(adapter);
+                                                        // **Actualizar el adaptador después de modificar las listas**
+                                                        adapter.notifyDataSetChanged();
+                                                    }
+                                                });
+
+                                    }
+
+                                }else{
+                                    limpiarListas();
+                                    Toast.makeText(this, "No tienes anuncios favoritos", Toast.LENGTH_SHORT).show();
+                                    cargarTodosLosAnuncios();
+                                }
+                            }else{
+                                limpiarListas();
+                                Toast.makeText(this, "No tienes anuncios favoritos", Toast.LENGTH_SHORT).show();
+                                cargarTodosLosAnuncios();
+                            }
+                        }
+                    }
+                });
+    }
+
+
+    //################### filtro fav
+
     private void limpiarListas() {
         datalist.clear();
         datalist2.clear();
         datalist3.clear();
         imagenes.clear();
+
     }
 
     private void procesarDocumentos(QuerySnapshot queryDocumentSnapshots) {
