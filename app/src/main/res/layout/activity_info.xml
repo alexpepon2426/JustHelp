@@ -114,12 +114,12 @@
 
     <TextView
         android:id="@+id/desctipcion_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/titulo_anuncio"
         app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
         app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
-        android:text="Aquí iria una breve descripción del anuncio"
+        android:text="Aquí iria una breve descripppppppppppción del anuncio"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/quicksand_medium"
         android:inputType="textMultiLine"
@@ -135,6 +135,17 @@
         android:text="Correo@correo.com"
         android:textColor="@color/blue"
         />
+    <ImageView
+        android:layout_width="2000dp"
+        android:layout_height="160dp"
+        app:layout_constraintStart_toStartOf="@id/guiaMVerticalIz"
+        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"
+        app:layout_constraintTop_toBottomOf="@id/correoInfo"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/mapa"
+        >
+
+    </ImageView>
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guiaHorizontal3"
         android:layout_width="wrap_content"
