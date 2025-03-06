@@ -61,7 +61,9 @@ public class Perfil extends AppCompatActivity {
     MyAdapter adapter;
     TextView e_nombre,e_correo;
     ImageView img_perfil;
-    @Override
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
@@ -241,10 +243,10 @@ public class Perfil extends AppCompatActivity {
 
                     // Aquí puedes actualizar la URL de la imagen para que se recargue en la lista
 
-
+                    String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
                     // Actualizamos la lista de imágenes
                     runOnUiThread(() -> {
-                        String imageUrlWithTimestamp = SUPABASE_URL + "/storage/v1/object/public/" + BUCKET_NAME + "/" + filename + "?t=" + System.currentTimeMillis();
+
 
                         Glide.with(this)
                                 .load(imageUrlWithTimestamp)
@@ -253,7 +255,7 @@ public class Perfil extends AppCompatActivity {
                                 .transform(new CircleCrop())
                                 .into(img_perfil);
 
-                        for (int i = 0; i < datalist.size(); i++) {
+                        for (int i = 0; i < imagenes.size(); i++) {
 
                             imagenes.set(i, imageUrlWithTimestamp);// Actualiza la URL de la imagen correspondiente
 
@@ -326,7 +328,7 @@ public class Perfil extends AppCompatActivity {
             }
         }).start();
     }
-
+ 
 
 
 

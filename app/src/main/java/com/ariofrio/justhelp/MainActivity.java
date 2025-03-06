@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdwZHNudHlhdHFtaWVybHpqcXFrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTczOTQzODUzOSwiZXhwIjoyMDU1MDE0NTM5fQ.krLfkuIT0o9xnzCzuSzYaZIJ2j-nt7jhuSNknvlrmJ0"; // Reemplaza con tu clave API
     private static final String BUCKET_NAME = "img_users"; // Nombre del bucket en Supabase
 
-    @Override
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
