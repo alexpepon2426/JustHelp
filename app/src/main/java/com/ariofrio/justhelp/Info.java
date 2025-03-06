@@ -14,6 +14,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -126,6 +128,12 @@ public class Info extends AppCompatActivity {
                                             String filename =correos + ".jpg";
                                             String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
                                             //imagenper
+
+                                            Glide.with(this)
+                                                    .load(urlImagen)
+                                                    .diskCacheStrategy(DiskCacheStrategy.ALL) // Caché para mejorar rendimiento
+                                                     // Imagen por defecto si falla
+                                                    .into(imagenper);
 
 
                                             if (nombreAnunciante != null) {
