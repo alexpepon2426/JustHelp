@@ -56,6 +56,8 @@ public class Perfil extends AppCompatActivity {
     private Uri imageUri;
     private boolean filtroOfrezcoActivo = false;
     private boolean filtroNecesitoActivo = false;
+    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
+    private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
@@ -181,6 +183,7 @@ public class Perfil extends AppCompatActivity {
                     // Si ya está activo, mostrar todos los anuncios nuevamente
                     cargarTodosLosAnuncios();
                     filtroOfrezcoActivo = false;
+                    boton_ofrezco.setBackgroundColor(COLOR_ORIGINAL);
                 } else {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -210,6 +213,7 @@ public class Perfil extends AppCompatActivity {
                                     }
                                     adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
                                     recyclerView.setAdapter(adapter);
+                                    boton_ofrezco.setBackgroundColor(COLOR_ACTIVO);
                                     adapter.notifyDataSetChanged();
                                 } else {
                                     Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Ofrezco'", Toast.LENGTH_SHORT).show();
@@ -232,6 +236,7 @@ public class Perfil extends AppCompatActivity {
                 if (filtroNecesitoActivo) {
                     cargarTodosLosAnuncios();
                     filtroNecesitoActivo = false;
+                    boton_necesito.setBackgroundColor(COLOR_ORIGINAL);
                 } else {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -261,6 +266,7 @@ public class Perfil extends AppCompatActivity {
                                     }
                                     adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes);
                                     recyclerView.setAdapter(adapter);
+                                    boton_necesito.setBackgroundColor(COLOR_ACTIVO);
                                     adapter.notifyDataSetChanged();
                                 } else {
                                     Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();

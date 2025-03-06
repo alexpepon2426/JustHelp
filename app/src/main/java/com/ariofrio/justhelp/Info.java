@@ -92,9 +92,6 @@ TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
     }
 
     public void goMain(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        intent.putExtra("correo",correo);
         finish();
     }
 }
