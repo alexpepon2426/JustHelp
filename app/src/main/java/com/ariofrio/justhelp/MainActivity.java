@@ -136,10 +136,10 @@ public class MainActivity extends AppCompatActivity {
         boton_new.setOnClickListener(view -> {
             if (filtroActivo) {
                 cargarTodosLosAnuncios();
-                boton_new.setBackgroundColor(COLOR_ORIGINAL);
+
             } else {
                 cargarAnunciosRecientes();
-                boton_new.setBackgroundColor(COLOR_ACTIVO);
+
             }
             filtroActivo = !filtroActivo;
         });
@@ -147,10 +147,10 @@ public class MainActivity extends AppCompatActivity {
         boton_fav.setOnClickListener(view -> {
             if (filtroActivo2) {
                 cargarTodosLosAnuncios();
-                boton_fav.setBackgroundColor(COLOR_ORIGINAL);
+
             } else {
                 cargarAnunciosFavoritos();
-                boton_fav.setBackgroundColor(COLOR_ACTIVO);
+
             }
             filtroActivo2 = !filtroActivo2;
         });
@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void onResume(Bundle savedInstanceState){
+    public void onResume(){
+        super.onResume();
         cargarTodosLosAnuncios();
     }
 
@@ -183,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
     private void cargarTodosLosAnuncios() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
+        boton_fav.setBackgroundColor(COLOR_ORIGINAL);
+        boton_new.setBackgroundColor(COLOR_ORIGINAL);
 
         db.collection("Anuncios")
                 .get()
@@ -201,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
+        boton_new.setBackgroundColor(COLOR_ACTIVO);
 
         db.collection("Anuncios")
                 .orderBy("fecha", Query.Direction.DESCENDING)
@@ -237,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
     private void cargarAnunciosFavoritos() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
+        boton_fav.setBackgroundColor(COLOR_ACTIVO);
 
         db.collection("Usuarios")
                 .whereEqualTo("correo", usuario)
@@ -278,12 +283,14 @@ public class MainActivity extends AppCompatActivity {
                                                         adapter = new MyAdapter(datalist, datalist2, datalist3, imagenes, usuario, correoA);
                                                         recyclerView.setAdapter(adapter);
                                                         // **Actualizar el adaptador después de modificar las listas**
-
+                                                        adapter.notifyDataSetChanged();
                                                     }
                                                 });
 
                                     }
-                                    adapter.notifyDataSetChanged();
+
+                                }else{
+                                    limpiarListas();
                                 }
                             }
                         }
@@ -299,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
         datalist2.clear();
         datalist3.clear();
         imagenes.clear();
+
     }
 
     private void procesarDocumentos(QuerySnapshot queryDocumentSnapshots) {
