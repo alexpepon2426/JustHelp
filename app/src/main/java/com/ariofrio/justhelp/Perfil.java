@@ -57,6 +57,8 @@ public class Perfil extends AppCompatActivity {
     private Uri imageUri;
     private boolean filtroOfrezcoActivo = false;
     private boolean filtroNecesitoActivo = false;
+    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
+    private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();
     List<String>datalist3=new ArrayList<>();
@@ -186,6 +188,7 @@ public class Perfil extends AppCompatActivity {
                     // Si ya está activo, mostrar todos los anuncios nuevamente
                     cargarTodosLosAnuncios();
                     filtroOfrezcoActivo = false;
+                    boton_ofrezco.setBackgroundColor(COLOR_ORIGINAL);
                 } else {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -218,6 +221,7 @@ public class Perfil extends AppCompatActivity {
                                 }
                                 adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
                                 recyclerView.setAdapter(adapter);
+                                boton_ofrezco.setBackgroundColor(COLOR_ACTIVO);
                                 // **Actualizar el adaptador después de modificar las listas**
                                 adapter.notifyDataSetChanged();
                             } else {
@@ -243,6 +247,7 @@ public class Perfil extends AppCompatActivity {
                 if (filtroNecesitoActivo) {
                     cargarTodosLosAnuncios();
                     filtroNecesitoActivo = false;
+                    boton_necesito.setBackgroundColor(COLOR_ORIGINAL);
                 } else {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -266,24 +271,25 @@ public class Perfil extends AppCompatActivity {
                                             datalist2.add((String) anuncio.get("direccion"));
                                             datalist3.add((String) anuncio.get("tipo"));
 
-                                        String auxi = (String) anuncio.get("correo");
-                                        correoA.add(auxi);
-                                        String filename = auxi + ".jpg";
-                                        String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
-                                        imagenes.add(urlImagen);
+                                            String auxi = (String) anuncio.get("correo");
+                                            correoA.add(auxi);
+                                            String filename = auxi + ".jpg";
+                                            String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                            imagenes.add(urlImagen);
+                                        }
                                     }
+                                    adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
+                                    recyclerView.setAdapter(adapter);
+                                    boton_necesito.setBackgroundColor(COLOR_ACTIVO);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
                                 }
-                                adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, correo, correoA);
-                                recyclerView.setAdapter(adapter);
-                                // **Actualizar el adaptador después de modificar las listas**
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                Toast.makeText(Perfil.this, "No hay anuncios de tipo 'Necesito'", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(Perfil.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+
                     filtroNecesitoActivo = true;
                     filtroOfrezcoActivo = false;
                 }

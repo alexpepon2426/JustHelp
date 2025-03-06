@@ -8,12 +8,15 @@
     tools:context=".MainActivity"
     android:background="@color/gray">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <EditText
+        android:id="@+id/editTextText"
 
         android:layout_width="327dp"
         android:layout_height="46dp"
         android:background="@color/white"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/busqueda"
         app:layout_constraintCircleRadius="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
@@ -37,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08" />
+        app:layout_constraintGuide_begin="10dp" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineD"
         android:layout_width="wrap_content"
@@ -53,7 +56,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/distancia"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"
-        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
 
     <Button
         android:id="@+id/button_nuevas"
@@ -64,7 +67,7 @@
         android:text="@string/nuevas"
         app:layout_constraintEnd_toStartOf="@+id/button_favoritas"
         app:layout_constraintStart_toEndOf="@+id/button_distancia"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        app:layout_constraintTop_toBottomOf="@id/editTextText" />
 
     <Button
         android:id="@+id/button_favoritas"
@@ -74,15 +77,14 @@
         android:layout_marginTop="10dp"
         android:text="@string/favoritas"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        app:layout_constraintTop_toBottomOf="@id/editTextText" />
 <!--    android:layout_marginTop="20dp"-->
     <!--        android:layout_height="527dp"-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
-        android:layout_height="500dp"
+        android:layout_height="200dp"
         android:layout_marginBottom="50dp"
-
         app:layout_constraintBottom_toTopOf="@+id/guidelineD"
         app:layout_constraintEnd_toStartOf="@+id/guidelineR"
         app:layout_constraintStart_toStartOf="@+id/guidelineL"

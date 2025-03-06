@@ -51,16 +51,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         String imagenUrl = imagenes.get(position);
         if (imagenUrl != null && !imagenUrl.isEmpty()) {
             Glide.with(holder.itemView.getContext())
-                    .load(imagenUrl)
+                    .load(imagenUrl) // Solo una vez
                     .placeholder(R.drawable.usuariott)
                     .error(R.drawable.usuariott)
-                    .load(imagenUrl) // URL de la imagen desde Supabase
-                    .placeholder(R.drawable.usuariott)// Imagen por defecto mientras carga
                     .transform(new CircleCrop())
-                    .skipMemoryCache(true) // No usar caché en memoria
+                    .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .error(R.drawable.usuariott) // Imagen en caso de error
                     .into(holder.imageView);
+
         } else {
             holder.imageView.setImageResource(R.drawable.usuariott);
         }

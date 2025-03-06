@@ -2,6 +2,7 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Info extends AppCompatActivity {
-    String nombre, aux;
-    TextView e_tipo, e_titulo, e_descripcion, e_correo, e_anunciante;
-    SwitchCompat switchCompat;
+String nombre,aux,correo;
+TextView e_tipo,e_titulo,e_descripcion,e_correo,e_anunciante;
+SwitchCompat switchCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class Info extends AppCompatActivity {
         String titulo = intent.getStringExtra("titulo");
         // String direccion = intent.getStringExtra("direccion");
         String tipo = intent.getStringExtra("tipo");
-        String correo = intent.getStringExtra("correo");
+
         String usuario = intent.getStringExtra("usuario");
         e_anunciante = findViewById(R.id.txtvAnunciante);
         switchCompat = findViewById(R.id.boton_like);
@@ -116,6 +117,7 @@ public class Info extends AppCompatActivity {
                                             String nombreAnunciante = document2.getString("nombre"); // Obtener el nombre
                                             String descripcion = document.getString("descripcion");
                                             String correos = document.getString("correo");
+                                            correo = document.getString("correo");
 
                                             if (nombreAnunciante != null) {
                                                 e_anunciante.setText(nombreAnunciante); // Mostrar en TextView
@@ -198,5 +200,9 @@ public class Info extends AppCompatActivity {
 
 
         });
+    }
+
+    public void goMain(View view) {
+        finish();
     }
 }

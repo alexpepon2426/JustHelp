@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/quicksand_semibold"
-            android:hint="Correo electrónico*">
+            android:hint="@string/correo_electronico">
 
 
         </EditText>
@@ -71,7 +71,7 @@
             android:id="@+id/passwdLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña"
+            android:hint="@string/contrasena"
             android:fontFamily="@font/quicksand_semibold"
             android:inputType="textPassword"
             >
@@ -84,7 +84,7 @@
         android:id="@+id/boton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Acceder"
+        android:text="@string/acceder"
         app:layout_constraintTop_toBottomOf="@id/nombre2"
         style="@style/Botones"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
@@ -98,7 +98,7 @@
         android:id="@+id/texto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="¿Usuario nuevo? Create una cuenta."
+        android:text="@string/usuario_nuevo"
         app:layout_constraintStart_toStartOf="@id/guiaiz"
         app:layout_constraintEnd_toEndOf="@id/guiade"
         app:layout_constraintTop_toBottomOf="@id/boton"
