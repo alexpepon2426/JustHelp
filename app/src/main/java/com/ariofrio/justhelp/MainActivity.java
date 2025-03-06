@@ -138,10 +138,11 @@ public class MainActivity extends AppCompatActivity {
                 cargarTodosLosAnuncios();
 
             } else {
+                resetBotones();
                 cargarAnunciosRecientes();
 
             }
-            filtroActivo = !filtroActivo;
+
         });
 
         boton_fav.setOnClickListener(view -> {
@@ -149,10 +150,11 @@ public class MainActivity extends AppCompatActivity {
                 cargarTodosLosAnuncios();
 
             } else {
+                resetBotones();
                 cargarAnunciosFavoritos();
 
             }
-            filtroActivo2 = !filtroActivo2;
+
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         cargarTodosLosAnuncios();
+
     }
 
     public void goAnadir(View view) {
@@ -180,12 +183,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
+    private void resetBotones(){
+        filtroActivo2=false;
+        filtroActivo=false;
+        boton_fav.setBackgroundColor(COLOR_ORIGINAL);
+        boton_new.setBackgroundColor(COLOR_ORIGINAL);
+    }
     private void cargarTodosLosAnuncios() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
-        boton_fav.setBackgroundColor(COLOR_ORIGINAL);
-        boton_new.setBackgroundColor(COLOR_ORIGINAL);
+        resetBotones();
 
         db.collection("Anuncios")
                 .get()
@@ -205,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
         boton_new.setBackgroundColor(COLOR_ACTIVO);
-
+        filtroActivo=true;
         db.collection("Anuncios")
                 .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
@@ -239,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
     //################### filtro fav
 
     private void cargarAnunciosFavoritos() {
+        filtroActivo2=true;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         limpiarListas();
         boton_fav.setBackgroundColor(COLOR_ACTIVO);
@@ -291,7 +299,13 @@ public class MainActivity extends AppCompatActivity {
 
                                 }else{
                                     limpiarListas();
+                                    Toast.makeText(this, "No tienes anuncios favoritos", Toast.LENGTH_SHORT).show();
+                                    cargarTodosLosAnuncios();
                                 }
+                            }else{
+                                limpiarListas();
+                                Toast.makeText(this, "No tienes anuncios favoritos", Toast.LENGTH_SHORT).show();
+                                cargarTodosLosAnuncios();
                             }
                         }
                     }
