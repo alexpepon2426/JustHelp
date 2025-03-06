@@ -2,6 +2,7 @@ package com.ariofrio.justhelp;
 
 import androidx.appcompat.graphics.drawable.DrawableContainerCompat.*;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         }
         String imagenUrl=imagenes.get(position); // detecto posicion de la lista
+        Log.d("MyAdapter", "Imagen URL: " + imagenUrl);
 
         if (imagenUrl != null && !imagenUrl.isEmpty()) {
             Glide.with(holder.itemView.getContext())
@@ -61,6 +63,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             holder.imageView.setImageResource(R.drawable.usuariott);
         }
         }
+
     @Override
     public int getItemCount(){
         return dataList.size();

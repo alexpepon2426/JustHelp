@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -54,11 +55,16 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         db.collection("Anuncios")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         // Lista para almacenar los anuncios recuperados
+                        datalist.clear();
+                        datalist2.clear();
+                        datalist3.clear();
+                        imagenes.clear();
                         List<Map<String, Object>> listaAnuncios = new ArrayList<>();
 
                         for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
@@ -66,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
                             // Mostrar en consola los datos de cada anuncio (puedes usar los valores según necesites)
                             if (anuncio != null) {
+
                                 auxi=(String) anuncio.get("titulo");
                                 datalist.add(auxi);
                                 auxi=(String) anuncio.get("direccion");
@@ -117,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
     }
+
 
     public void goAnadir(View view) {
         Intent intent = new Intent(MainActivity.this,AniadirO.class);
