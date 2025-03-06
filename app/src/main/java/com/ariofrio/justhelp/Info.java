@@ -42,7 +42,7 @@ public class Info extends AppCompatActivity {
         e_anunciante = findViewById(R.id.txtvAnunciante);
         switchCompat = findViewById(R.id.boton_like);
 
-        Toast.makeText(this, "correoA: " + correo, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "correoA: " + correo, Toast.LENGTH_SHORT).show();
 
         e_descripcion = findViewById(R.id.desctipcion_info);
         e_correo = findViewById(R.id.correoInfo);
@@ -56,7 +56,7 @@ public class Info extends AppCompatActivity {
         //switchCompat.setChecked(); // Hay que coger el campo de la lista de favoritos! #############################
         //##################################################################################   P T E  ##############
 
-        Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+
         //Compruebo lista de anuncios del usuario
         db.collection("Usuarios").document(usuario)
                 .get()
@@ -67,9 +67,9 @@ public class Info extends AppCompatActivity {
                             favoritos = new ArrayList<>();
                         }
 
-                        Toast.makeText(this, "3", Toast.LENGTH_SHORT).show();
+
                         String id = correo + titulo;
-                        Toast.makeText(this, "id: " + id, Toast.LENGTH_SHORT).show();
+
                         if (favoritos.contains(id)) {
                             switchCompat.setChecked(true);
                             switchCompat.setThumbTintList(ContextCompat.getColorStateList(this, R.color.red));

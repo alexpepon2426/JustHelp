@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                                 datalist3.add(document.getString("tipo"));*/
                                 listaAnuncios.add(anuncio);
                             }
+                            adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
+                            recyclerView.setAdapter(adapter);
+
                             adapter.notifyDataSetChanged(); //Esto va actualizando los datos del adaptador según cambien
                         }
 
