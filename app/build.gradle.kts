@@ -56,6 +56,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.13.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("androidx.appcompat:appcompat:1.3.1")  // Verifica que esta línea esté presente.
 
 
     implementation ("org.osmdroid:osmdroid-android:6.1.14")

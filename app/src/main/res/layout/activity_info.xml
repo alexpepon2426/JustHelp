@@ -72,8 +72,13 @@
 <!--        app:layout_constraintEnd_toEndOf="@id/guiaMVerticalDer"-->
 <!--        />-->
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/boton_like"
+
+        android:checked="false"
+        android:thumb="@drawable/love_r"
+
+        android:thumbTintMode="src_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/guiaHorizontal"
