@@ -3,6 +3,7 @@ package com.ariofrio.justhelp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,7 +28,10 @@ import java.util.Map;
 public class Info extends AppCompatActivity {
     String nombre, aux;
     TextView e_tipo, e_titulo, e_descripcion, e_correo, e_anunciante;
+    ImageView imagenper;
     SwitchCompat switchCompat;
+    private static final String SUPABASE_URL = "https://gpdsntyatqmierlzjqqk.supabase.co";
+    private static final String BUCKET_NAME = "img_users";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class Info extends AppCompatActivity {
 
         e_descripcion = findViewById(R.id.desctipcion_info);
         e_correo = findViewById(R.id.correoInfo);
+        imagenper=findViewById(R.id.pfp);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         //ESTO PONE POR DEFECTO EN DESACTIVADO EL SWITCH CORAZÓN
@@ -117,6 +124,18 @@ public class Info extends AppCompatActivity {
                                             String nombreAnunciante = document2.getString("nombre"); // Obtener el nombre
                                             String descripcion = document.getString("descripcion");
                                             String correos = document.getString("correo");
+
+                                            /*PROBANDO LAURA*/
+                                            String filename =correos + ".jpg";
+                                            String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
+                                            //imagenper
+
+                                            Glide.with(this)
+                                                    .load(urlImagen)
+                                                    .diskCacheStrategy(DiskCacheStrategy.ALL) // Caché para mejorar rendimiento
+                                                     // Imagen por defecto si falla
+                                                    .into(imagenper);
+
 
                                             if (nombreAnunciante != null) {
                                                 e_anunciante.setText(nombreAnunciante); // Mostrar en TextView
