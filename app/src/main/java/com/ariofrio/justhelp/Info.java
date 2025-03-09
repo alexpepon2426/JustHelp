@@ -124,6 +124,7 @@ public class Info extends AppCompatActivity {
                                             String descripcion = document.getString("descripcion");
                                             String correos = document.getString("correo");
 
+
                                             /*PROBANDO LAURA*/
                                             String filename =correos + ".jpg";
                                             String urlImagen = SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + filename;
