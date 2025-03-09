@@ -192,7 +192,7 @@ public class Info extends AppCompatActivity {
                                     .update(updatedData)
                                     .addOnSuccessListener(aVoid -> {
                                         // Operación exitosa, si es necesario, puedes hacer algo aquí
-                                        Toast.makeText(this, "Lista de favoritos actualizada", Toast.LENGTH_SHORT).show();
+                                       // Toast.makeText(this, "Lista de favoritos actualizada", Toast.LENGTH_SHORT).show();
                                     })
                                     .addOnFailureListener(e -> {
                                         // Si ocurre algún error al actualizar los datos
