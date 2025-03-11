@@ -11,7 +11,7 @@ android {
         applicationId = "com.ariofrio.justhelp"
         minSdk = 28
         targetSdk = 34
-        versionCode = 7
+        versionCode = 8
         versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

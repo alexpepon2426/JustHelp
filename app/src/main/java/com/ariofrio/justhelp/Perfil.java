@@ -57,7 +57,7 @@ public class Perfil extends AppCompatActivity {
     private Uri imageUri;
     private boolean filtroOfrezcoActivo = false;
     private boolean filtroNecesitoActivo = false;
-    private static final int COLOR_ACTIVO = 0xFF42A5F5; //azul para marcar el filtro
+    private static final int COLOR_ACTIVO = 0xFFD99771; //rosa clarito para marcar el filtro
     private static final int COLOR_ORIGINAL = 0x297350; //vuelta al verde clásico identidad de JUSTHELP
     List<String>datalist=new ArrayList<>();
     List<String>datalist2=new ArrayList<>();

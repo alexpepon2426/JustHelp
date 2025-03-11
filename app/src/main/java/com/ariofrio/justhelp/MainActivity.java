@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tipoColor;
     private boolean filtroActivo = false;
     private Button boton_new,boton_fav;
-    private static final int COLOR_ACTIVO = 0xFF42A5F5; // Azul para marcar el filtro
+    private static final int COLOR_ACTIVO = 0xFFD99771; // rosa clarito para marcar el filtro
     private static final int COLOR_ORIGINAL = 0x297350; // Verde clásico de JUSTHELP
     private String usuario;
     private List<String> datalist = new ArrayList<>();
