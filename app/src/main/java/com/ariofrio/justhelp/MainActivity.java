@@ -211,4 +211,16 @@ public class MainActivity extends AppCompatActivity {
         boton_fav.setBackgroundColor(COLOR_ORIGINAL);
         boton_new.setBackgroundColor(COLOR_ORIGINAL);
     }
+    public void goPerfil(View view) {
+        Intent intent = new Intent(MainActivity.this, Perfil.class);
+        intent.putExtra("correo", usuario);
+        startActivity(intent);
+    }
+    public void goAnadir(View view) {
+        Intent intent = new Intent(MainActivity.this, AniadirO.class);
+        intent.putExtra("correo", usuario);
+        startActivity(intent);
+    }
+
+
 }
