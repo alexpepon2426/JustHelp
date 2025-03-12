@@ -2,14 +2,17 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,12 +113,15 @@ public class MainActivity extends AppCompatActivity {
         resetBotones();
 
         db.collection("Anuncios")
-                .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(this::procesarDocumentos)
                 .addOnFailureListener(e ->
                         Toast.makeText(MainActivity.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
+        recyclerView.setAdapter(adapter);
 
+        // **Actualizar el adaptador después de modificar las listas**
+        adapter.notifyDataSetChanged();
     }
 
     private void cargarAnunciosRecientes() {
@@ -185,23 +191,18 @@ public class MainActivity extends AppCompatActivity {
             Map<String, Object> anuncio = document.getData();
             if (anuncio != null) {
                 String titulo = (String) anuncio.get("titulo");
-                String tipo = (String) anuncio.get("tipo");
-                String idAnuncio = document.getId();
-
-                Log.d("Firestore", "Título: " + titulo + ", Tipo: " + tipo); // Log para depuración
-
-                if (!anunciosVistos.contains(idAnuncio)) {
-                    anunciosVistos.add(idAnuncio);
+                if (!anunciosVistos.contains(titulo)) {
+                    anunciosVistos.add(titulo);
                     datalist.add(titulo);
                     datalist2.add((String) anuncio.get("direccion"));
-                    datalist3.add(tipo);
+                    datalist3.add((String) anuncio.get("tipo"));
                     String correo = (String) anuncio.get("correo");
                     correoA.add(correo);
                     imagenes.add(SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + correo + ".jpg");
                 }
             }
         }
-        runOnUiThread(() -> adapter.notifyDataSetChanged());
+        adapter.notifyDataSetChanged();
     }
 
     private void resetBotones() {
@@ -209,19 +210,5 @@ public class MainActivity extends AppCompatActivity {
         filtroActivo2 = false;
         boton_fav.setBackgroundColor(COLOR_ORIGINAL);
         boton_new.setBackgroundColor(COLOR_ORIGINAL);
-    }
-
-    public void goAnadir(View view) {
-        Intent intent = new Intent(MainActivity.this, AniadirO.class);
-        intent.putExtra("correo", usuario);
-        startActivity(intent);
-        finish();
-    }
-
-    public void goPerfil(View view) {
-        Intent intent = new Intent(MainActivity.this, Perfil.class);
-        intent.putExtra("correo", usuario);
-        startActivity(intent);
-        finish();
     }
 }
