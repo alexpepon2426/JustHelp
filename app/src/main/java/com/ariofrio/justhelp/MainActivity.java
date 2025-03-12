@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 .addOnSuccessListener(this::procesarDocumentos)
                 .addOnFailureListener(e ->
                         Toast.makeText(MainActivity.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void cargarAnunciosRecientes() {
@@ -170,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
                 .whereLessThanOrEqualTo("titulo", texto + "\uf8ff")
                 .get()
                 .addOnSuccessListener(this::procesarDocumentos);
+        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void limpiarListas() {
@@ -206,4 +212,19 @@ public class MainActivity extends AppCompatActivity {
         boton_fav.setBackgroundColor(COLOR_ORIGINAL);
         boton_new.setBackgroundColor(COLOR_ORIGINAL);
     }
+
+    public void goAnadir(View view) {
+        Intent intent = new Intent(MainActivity.this, AniadirO.class);
+        intent.putExtra("correo", usuario);
+        startActivity(intent);
+        finish();
+    }
+
+    public void goPerfil(View view) {
+        Intent intent = new Intent(MainActivity.this, Perfil.class);
+        intent.putExtra("correo", usuario);
+        startActivity(intent);
+        finish();
+    }
+
 }
