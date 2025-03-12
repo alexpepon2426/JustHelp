@@ -2,17 +2,14 @@ package com.ariofrio.justhelp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -113,13 +110,12 @@ public class MainActivity extends AppCompatActivity {
         resetBotones();
 
         db.collection("Anuncios")
+                .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(this::procesarDocumentos)
                 .addOnFailureListener(e ->
                         Toast.makeText(MainActivity.this, "Error al recuperar los anuncios: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
     }
 
     private void cargarAnunciosRecientes() {
@@ -173,9 +169,6 @@ public class MainActivity extends AppCompatActivity {
                 .whereLessThanOrEqualTo("titulo", texto + "\uf8ff")
                 .get()
                 .addOnSuccessListener(this::procesarDocumentos);
-        adapter = new MyAdapter(datalist, datalist2, datalist3,imagenes, usuario, correoA);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
     }
 
     private void limpiarListas() {
@@ -192,18 +185,23 @@ public class MainActivity extends AppCompatActivity {
             Map<String, Object> anuncio = document.getData();
             if (anuncio != null) {
                 String titulo = (String) anuncio.get("titulo");
-                if (!anunciosVistos.contains(titulo)) {
-                    anunciosVistos.add(titulo);
+                String tipo = (String) anuncio.get("tipo");
+                String idAnuncio = document.getId();
+
+                Log.d("Firestore", "Título: " + titulo + ", Tipo: " + tipo); // Log para depuración
+
+                if (!anunciosVistos.contains(idAnuncio)) {
+                    anunciosVistos.add(idAnuncio);
                     datalist.add(titulo);
                     datalist2.add((String) anuncio.get("direccion"));
-                    datalist3.add((String) anuncio.get("tipo"));
+                    datalist3.add(tipo);
                     String correo = (String) anuncio.get("correo");
                     correoA.add(correo);
                     imagenes.add(SUPABASE_URL + "/storage/v1/object/" + BUCKET_NAME + "/" + correo + ".jpg");
                 }
             }
         }
-        adapter.notifyDataSetChanged();
+        runOnUiThread(() -> adapter.notifyDataSetChanged());
     }
 
     private void resetBotones() {
@@ -226,5 +224,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
 }
